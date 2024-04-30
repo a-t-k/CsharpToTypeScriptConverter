@@ -113,3 +113,5 @@ var fileName = "./typeScriptTypes.ts";
 File.WriteAllText(fileName, transformedText);
            
 ```
+
+[NuGet-Package](https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator/0.8.0)
