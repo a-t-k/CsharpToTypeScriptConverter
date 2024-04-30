@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeScriptRequestCommandsGenerator", "src\CsharpToTypeScriptConverter.Generator\TypeScriptRequestCommandsGenerator.csproj", "{15330D11-9BBF-4D97-88E5-322B9F8E315A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpToTypeScriptConverter.Tests", "src\CsharpToTypeScriptConverter.Tests\CsharpToTypeScriptConverter.Tests.csproj", "{FB4D514E-9A9F-47BC-811F-4BEAE269089E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15330D11-9BBF-4D97-88E5-322B9F8E315A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15330D11-9BBF-4D97-88E5-322B9F8E315A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15330D11-9BBF-4D97-88E5-322B9F8E315A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15330D11-9BBF-4D97-88E5-322B9F8E315A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB4D514E-9A9F-47BC-811F-4BEAE269089E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB4D514E-9A9F-47BC-811F-4BEAE269089E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB4D514E-9A9F-47BC-811F-4BEAE269089E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB4D514E-9A9F-47BC-811F-4BEAE269089E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {572CEF46-0023-43FF-9FC8-E96D95766E6C}
+	EndGlobalSection
+EndGlobal
