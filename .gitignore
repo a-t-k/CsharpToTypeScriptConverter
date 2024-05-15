@@ -1,0 +1,6 @@
+﻿.vs
+src/CsharpToTypeScriptConverter.Tests/obj
+src/CsharpToTypeScriptConverter.Generator/bin
+src/CsharpToTypeScriptConverter.Generator/obj
+src/CsharpToTypeScriptConverter.Tests/bin
+*.user
