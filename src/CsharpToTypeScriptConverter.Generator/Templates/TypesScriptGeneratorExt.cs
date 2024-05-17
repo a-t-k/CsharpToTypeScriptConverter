@@ -142,7 +142,7 @@ namespace TypeScriptRequestCommandsGenerator.Templates
             {
                 foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    if (property.PropertyType.IsEnum) return;
+                    if (property.PropertyType.IsEnum) continue;
 
                     GetTypeScriptFieldTypeName(property.PropertyType, returnTypes, itIsForReturnTypeName, itIsForPropertyName);
                 }
