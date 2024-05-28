@@ -19,7 +19,7 @@ Install-Package CSharpToTypeScriptConverter
 ```
 
 
-The package is available on [NuGet]((https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator/)).
+The package is available on [NuGet]((https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator/0.8.1)).
 
 #### Usage
 To use this converter, simply create an instance with the desired input types:
@@ -141,6 +141,3 @@ From the domain language to some principles of SOLID. A sequence of some command
 persisted well in order to be replayed later in a given chronological time order. (DDD, EventSourcing, CQRS, CQS)...
 
 But this is not the place to write down the entire spectrum of good software development practices.
-
-
-[NuGet-Package](https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator/0.8.0)
