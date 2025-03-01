@@ -11,7 +11,7 @@ public static class MetadataHelper
     {
         TypesScriptGenerator.Settings.RequestCommandInterfaceName = requestCommandsInterfaceName;
     }
-    
+
     public static List<GeneratorType> GetGeneratorTypesMetadata(IEnumerable<Type> types, Type filter, Type returnTypeFilter, Dictionary<string, Type> usedTypes)
     {
         var generatorTypes = types
@@ -43,6 +43,20 @@ public static class MetadataHelper
             {
                 Kind = GeneratorTypeKind.UsedReturnType,
                 Name = x.Key,
+                ImplementsInterfaceTypeNames = x.Value.GetInterfaces().Select(i =>
+                {
+                    if (!i.IsGenericType) return i.Name;
+
+                    // name is generic. we get generic types 
+                    var interfacePrefixName = $"{i.Name.Substring(0, i.Name.IndexOf("`"))}";
+                    var genericNameResult = GetReturnTypeName(x.Value, usedTypes, i.GetGenericTypeDefinition());
+
+                    // name: IAnimal
+                    // genericNameResult: Dog<Black>
+                    // result is then IAnimal<Dog<Black>>
+                    var genericInterfaceName = $"{interfacePrefixName}<{genericNameResult}>";
+                    return genericInterfaceName;
+                }).ToArray(),
                 Members = x.Value.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Select(
                         p =>
@@ -79,6 +93,20 @@ public static class MetadataHelper
         {
             Name = type.Name,
             Kind = GeneratorTypeKind.Class,
+            ImplementsInterfaceTypeNames = type.GetInterfaces().Select(i =>
+            {
+                if (!i.IsGenericType) return i.Name;
+
+                // name is generic. we get generic types 
+                var interfacePrefixName = $"{i.Name.Substring(0, i.Name.IndexOf("`"))}";
+                var genericNameResult = GetReturnTypeName(type, returnTypes, i.GetGenericTypeDefinition());
+
+                // name: IAnimal
+                // genericNameResult: Dog<Black>
+                // result is then IAnimal<Dog<Black>>
+                var genericInterfaceName = $"{interfacePrefixName}<{genericNameResult}>";
+                return genericInterfaceName;
+            }).ToArray(),
             Members = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p =>
                 {

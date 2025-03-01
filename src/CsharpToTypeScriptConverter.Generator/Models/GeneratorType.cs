@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace TypeScriptRequestCommandsGenerator.Models;
 public class GeneratorType
 {
@@ -7,4 +8,5 @@ public class GeneratorType
     public string ReturnTypeName { get; set; }
     public GeneratorTypeKind Kind { get; set; }
     public IEnumerable<GeneratorMember> Members { get; set; }
+    public string[] ImplementsInterfaceTypeNames { get; set; } = [];
 }

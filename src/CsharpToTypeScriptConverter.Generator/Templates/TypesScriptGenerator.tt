@@ -52,7 +52,8 @@ export enum <#= @enum.Name #> {
 // ReturnTypes
 <# foreach(var @returnType in this.ReturnTypes) { #>
 
-export interface <#= @returnType.Name #> {   
+export interface <#= @returnType.Name #> <# if(@returnType.ImplementsInterfaceTypeNames.Any()){ #>extends <#= string.Join(",", @returnType.ImplementsInterfaceTypeNames[0])#><# }
+#>{
 <#  foreach(var member in @returnType.Members) { #>
 	    <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#><#= member.IsDeclaredAsGeneric? ":": ":" #> <#= member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false) #>;
 <#    } #>
