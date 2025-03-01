@@ -19,7 +19,7 @@ Install-Package CSharpToTypeScriptConverter
 ```
 
 
-The package is available on [NuGet]((https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator/0.8.1)).
+The package is available on [NuGet]((https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator)).
 
 #### Usage
 To use this converter, simply create an instance with the desired input types:
