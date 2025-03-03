@@ -38,52 +38,82 @@ public static class MetadataHelper
 
     public static List<GeneratorType> GetGeneratorTypesForUsedTypes(Dictionary<string, Type> usedTypes)
     {
+        var foundTypes = new Dictionary<string, Type>();
         var returnGeneratorTypes = usedTypes.Select(
-            x => new GeneratorType
+            x =>
             {
-                Kind = GeneratorTypeKind.UsedReturnType,
-                Name = x.Key,
-                ImplementsInterfaceTypeNames = x.Value.GetInterfaces().Select(i =>
+                if (x.Value.IsEnum)
                 {
-                    if (!i.IsGenericType) return i.Name;
+                    return GetEnumGeneratorType(x.Value);
+                }
+                return new GeneratorType
+                {
+                    Kind = GeneratorTypeKind.UsedReturnType,
+                    Name = x.Key,
+                    ImplementsInterfaceTypeNames = x.Value.GetInterfaces().Select(i =>
+                    {
+                        if (!i.IsGenericType) return i.Name;
 
-                    // name is generic. we get generic types 
-                    var interfacePrefixName = $"{i.Name.Substring(0, i.Name.IndexOf("`"))}";
-                    var genericNameResult = GetReturnTypeName(x.Value, usedTypes, i.GetGenericTypeDefinition());
+                        // name is generic. we get generic types 
+                        var interfacePrefixName = $"{i.Name.Substring(0, i.Name.IndexOf("`"))}";
+                        var genericNameResult = GetReturnTypeName(x.Value, usedTypes, i.GetGenericTypeDefinition());
 
-                    // name: IAnimal
-                    // genericNameResult: Dog<Black>
-                    // result is then IAnimal<Dog<Black>>
-                    var genericInterfaceName = $"{interfacePrefixName}<{genericNameResult}>";
-                    return genericInterfaceName;
-                }).ToArray(),
-                Members = x.Value.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Select(
-                        p =>
-                        {
-                            var generatorMember = new GeneratorMember
+                        // name: IAnimal
+                        // genericNameResult: Dog<Black>
+                        // result is then IAnimal<Dog<Black>>
+                        var genericInterfaceName = $"{interfacePrefixName}<{genericNameResult}>";
+                        return genericInterfaceName;
+                    }).ToArray(),
+                    Members = x.Value.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Select(
+                            p =>
                             {
-                                Name = p.Name,
-                                Type = p.PropertyType,
-                                IsDeclaredAsGeneric = p.DeclaringType is not null && p.DeclaringType.IsGenericType && p.DeclaringType.GetGenericTypeDefinition().GetProperty(p.Name)!.PropertyType.IsGenericParameter,
-                                GenericName = "T"
-                            };
-
-                            // IEnumerable<>, IList<>, List<>.... List<T> ist then T[].
-                            if (p.PropertyType.IsIEnumerableOfT() && p.PropertyType.IsGenericType && p.PropertyType.GetGenericArguments().Length > 0)
-                            {
-                                var checkType = p.PropertyType.GetGenericArguments()[0];
-
-                                // Only when Class (declaringType) is generic?
-                                if (p.DeclaringType is not null && p.DeclaringType.GenericTypeArguments.Any(a => a.Name == checkType.Name))
+                                var generatorMember = new GeneratorMember
                                 {
-                                    generatorMember.IsDeclaredAsGeneric = true;
-                                    generatorMember.GenericName = "T[]";
+                                    Name = p.Name,
+                                    Type = p.PropertyType,
+                                    IsDeclaredAsGeneric = p.DeclaringType is not null &&
+                                                          p.DeclaringType.IsGenericType &&
+                                                          p.DeclaringType.GetGenericTypeDefinition()
+                                                              .GetProperty(p.Name)!.PropertyType.IsGenericParameter,
+                                    GenericName = "T"
+                                };
+
+                                // all new types in properties will be added to generation collection. 
+                                TypesScriptGenerator.GetTypeScriptFieldTypeName(p.PropertyType, foundTypes,
+                                    itIsForReturnTypeName: false, itIsForPropertyName: true);
+
+                                // IEnumerable<>, IList<>, List<>.... List<T> ist then T[].
+                                if (p.PropertyType.IsIEnumerableOfT() && p.PropertyType.IsGenericType &&
+                                    p.PropertyType.GetGenericArguments().Length > 0)
+                                {
+                                    var checkType = p.PropertyType.GetGenericArguments()[0];
+
+                                    // Only when Class (declaringType) is generic?
+                                    if (p.DeclaringType is not null &&
+                                        p.DeclaringType.GenericTypeArguments.Any(a => a.Name == checkType.Name))
+                                    {
+                                        generatorMember.IsDeclaredAsGeneric = true;
+                                        generatorMember.GenericName = "T[]";
+                                    }
                                 }
-                            }
-                            return generatorMember;
-                        })
-            });
+
+                                return generatorMember;
+                            }).ToArray()
+                };
+            }).ToList();
+        if (foundTypes.Any())
+        {
+            // check for not generated types.
+            var notGeneratedTypes = foundTypes.Where(ft => usedTypes.All(ut => ft.Key != ut.Key)).ToDictionary();
+            if (notGeneratedTypes.Any())
+            {
+                // generate it in a loop.
+                returnGeneratorTypes.AddRange(MetadataHelper.GetGeneratorTypesForUsedTypes(foundTypes));
+                return returnGeneratorTypes;
+            }
+        }
+
         return returnGeneratorTypes.ToList();
     }
 

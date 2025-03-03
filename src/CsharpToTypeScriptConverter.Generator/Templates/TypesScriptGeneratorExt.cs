@@ -12,7 +12,7 @@ namespace TypeScriptRequestCommandsGenerator.Templates
         {
             public static string RequestCommandInterfaceName { get; set; } = "ICommand";
         }
-        
+
         public GeneratorType[] GeneratorTypes { get; set; }
 
         private IEnumerable<GeneratorType> Classes { get { return this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.Class || t.Kind == GeneratorTypeKind.Interface); } }
