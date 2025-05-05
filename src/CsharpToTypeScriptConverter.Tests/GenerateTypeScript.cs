@@ -9,13 +9,13 @@ public class Generate
     {
         // interface type to find all request commands.
         var requestCommandType = typeof(IRequestCommand);
-            
+
         // intern defined command with generic return type. 
         var returnType = typeof(ICommand<>);
         var usedTypes = new Dictionary<string, Type>();
 
         TypesScriptGenerator.Settings.RequestCommandInterfaceName = "ICommand";
-            
+
         var typesMetadata = MetadataHelper.GetGeneratorTypesMetadata(typeof(UserRoles).Assembly.ExportedTypes, requestCommandType, returnType, usedTypes);
 
         // types that generator not generated, because they are deeper in definition
@@ -29,9 +29,11 @@ public class Generate
         var enumExists = transformedText.Contains("export enum UserRoles");
         var classExists = transformedText.Contains("export class ChangeUserRoleRequestCommand implements ICommand<boolean>");
         var requestCommandInterfaceExists = transformedText.Contains("export interface ICommand<T>{ _?: T}");
-            
+        var genericTypePropertyHasFullName = transformedText.Contains("users: PaginationResponse<User>;");
+
         Assert.True(enumExists);
         Assert.True(classExists);
         Assert.True(requestCommandInterfaceExists);
+        Assert.True(genericTypePropertyHasFullName);
     }
 }

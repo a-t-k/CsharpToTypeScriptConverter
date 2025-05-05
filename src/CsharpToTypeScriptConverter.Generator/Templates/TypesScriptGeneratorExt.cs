@@ -82,10 +82,6 @@ namespace TypeScriptRequestCommandsGenerator.Templates
                 {
                     AddReturnType($"{name}<T>", type, returnTypes, itIsForReturnTypeName, itIsForPropertyName);
                 }
-                else
-                {
-                    return "T";
-                }
 
                 var genericArguments = type.GetGenericArguments()
                     .Select(x => GetTypeScriptFieldTypeName(x, returnTypes, itIsForReturnTypeName, itIsForPropertyName))
