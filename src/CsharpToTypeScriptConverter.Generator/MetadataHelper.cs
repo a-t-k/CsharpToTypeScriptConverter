@@ -21,15 +21,21 @@ public static class MetadataHelper
             {
                 if (t.IsEnum)
                 {
-                    return GetEnumGeneratorType(t);
+                    var generatorType = GetEnumGeneratorType(t);
+                    generatorType.Documentation = t.GetDocumentation()?.OnlyDocumentationText();
+                    return generatorType;
                 }
 
                 if (t.IsValueType)
                 {
-                    return GetInterfaceGeneratorType(t, usedTypes, returnTypeFilter);
+                    var valueGeneratorType = GetInterfaceGeneratorType(t, usedTypes, returnTypeFilter);
+                    valueGeneratorType.Documentation = t.GetDocumentation()?.OnlyDocumentationText();
+                    return valueGeneratorType;
                 }
 
-                return GetClassGeneratorType(t, usedTypes, returnTypeFilter);
+                var classGeneratorType = GetClassGeneratorType(t, usedTypes, returnTypeFilter);
+                classGeneratorType.Documentation = t.GetDocumentation()?.OnlyDocumentationText();
+                return classGeneratorType;
             })
             .ToList();
 
@@ -44,9 +50,11 @@ public static class MetadataHelper
             {
                 if (x.Value.IsEnum)
                 {
-                    return GetEnumGeneratorType(x.Value);
+                    var generatorType = GetEnumGeneratorType(x.Value);
+                    generatorType.Documentation = x.Value.GetDocumentation()?.OnlyDocumentationText();
+                    return generatorType;
                 }
-                return new GeneratorType
+                var resultGeneratorType = new GeneratorType
                 {
                     Kind = GeneratorTypeKind.UsedReturnType,
                     Name = x.Key,
@@ -101,15 +109,18 @@ public static class MetadataHelper
                                 return generatorMember;
                             }).ToArray()
                 };
+                resultGeneratorType.Documentation = x.Value.GetDocumentation()?.OnlyDocumentationText();
+                return resultGeneratorType;
             }).ToList();
+
         if (foundTypes.Any())
         {
             // check for not generated types.
             var notGeneratedTypes = foundTypes.Where(ft => usedTypes.All(ut => ft.Key != ut.Key)).ToDictionary();
             if (notGeneratedTypes.Any())
             {
-                // generate it in a loop.
-                returnGeneratorTypes.AddRange(MetadataHelper.GetGeneratorTypesForUsedTypes(foundTypes));
+                // generate it
+                returnGeneratorTypes.AddRange(MetadataHelper.GetGeneratorTypesForUsedTypes(notGeneratedTypes));
                 return returnGeneratorTypes;
             }
         }

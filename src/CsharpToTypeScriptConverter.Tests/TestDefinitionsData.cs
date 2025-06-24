@@ -23,6 +23,9 @@ public class ChangeUserRoleRequestCommand : IRequestCommand, ICommand<bool>
     public UserRoles NewRole { get; set; }
 }
 
+/// <summary>
+/// Simple command to get users. Can be filtered and paged.
+/// </summary>
 public class GetUsersRequestCommand : IRequestCommand, ICommand<IEnumerable<FoundUsers>>
 {
     public int Skip { get; set; }
@@ -30,6 +33,10 @@ public class GetUsersRequestCommand : IRequestCommand, ICommand<IEnumerable<Foun
     public string? SearchFilter { get; set; }
 }
 
+
+/// <summary>
+/// Return type of found users.
+/// </summary>
 public class FoundUsers
 {
     public int UsersCount { get; set; }

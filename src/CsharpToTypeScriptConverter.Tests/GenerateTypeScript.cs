@@ -19,11 +19,17 @@ public class Generate
         var typesMetadata = MetadataHelper.GetGeneratorTypesMetadata(typeof(UserRoles).Assembly.ExportedTypes, requestCommandType, returnType, usedTypes);
 
         // types that generator not generated, because they are deeper in definition
-        var notGeneratedTypes = usedTypes.Where(ut => typesMetadata.All(tm => tm.Name != ut.Key)).ToDictionary();
-        // generate it, when some are there. (this can be looped)
-        typesMetadata.AddRange(MetadataHelper.GetGeneratorTypesForUsedTypes(notGeneratedTypes));
+        var notGeneratedTypes = usedTypes.Where(ut => typesMetadata.ToArray().All(tm => tm.Name != ut.Key)).ToDictionary();
+        var newMetaData = MetadataHelper.GetGeneratorTypesForUsedTypes(notGeneratedTypes);
 
-        var typesGenerator = new TypesScriptGenerator { GeneratorTypes = typesMetadata.ToArray() };
+        // generate it
+        typesMetadata.AddRange(newMetaData);
+
+        // distinct all generated types
+        var distinctGeneratorTypes = typesMetadata.GroupBy(x => x.Name).Select(x => x.First()).ToArray();
+
+        // and transform it to type script
+        var typesGenerator = new TypesScriptGenerator { GeneratorTypes = distinctGeneratorTypes };
         var transformedText = typesGenerator.TransformText().Trim();
 
         var enumExists = transformedText.Contains("export enum UserRoles");

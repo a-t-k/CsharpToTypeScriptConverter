@@ -9,4 +9,5 @@ public class GeneratorType
     public GeneratorTypeKind Kind { get; set; }
     public IEnumerable<GeneratorMember> Members { get; set; }
     public string[] ImplementsInterfaceTypeNames { get; set; } = [];
+    public string[] Documentation { get; set; }
 }
