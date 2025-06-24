@@ -8,14 +8,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpToTypeScriptConverter.Tests", "src\CsharpToTypeScriptConverter.Tests\CsharpToTypeScriptConverter.Tests.csproj", "{FB4D514E-9A9F-47BC-811F-4BEAE269089E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visual Studio", "Visual Studio", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{C4C27FA6-FB0E-452D-89D4-A69282F4AAB5}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -38,6 +40,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}
+		{C4C27FA6-FB0E-452D-89D4-A69282F4AAB5} = {4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {572CEF46-0023-43FF-9FC8-E96D95766E6C}
