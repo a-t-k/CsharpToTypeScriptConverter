@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{33374E28-C7CF-450E-8996-B9327588B194}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{33374E28-C7CF-450E-8996-B9327588B194}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

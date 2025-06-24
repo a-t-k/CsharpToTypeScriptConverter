@@ -1,4 +1,4 @@
-﻿<#@ template language="C#" visibility="public" #>
+<#@ template language="C#" visibility="public" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -21,14 +21,15 @@ export interface <#=@Settings.RequestCommandInterfaceName#><T>{ _?: T}
 // all request commands as classes
 
 <# foreach(var @class in this.Classes) { #>
-<# if(@class.Documentation != null) {#>
+
 /**
- <# foreach(var @documentation in @class.Documentation) {#>
- * <#= @documentation #>
- <# } #>
+<#if(@class.Documentation != null){#>
+<#foreach(var @documentation in @class.Documentation){#>
+ * <#=@documentation#>
+<#}#><#}#>
  * @returns {<#= @class.ReturnTypeName #>}
 */
-<# } #>
+
 export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceName#><<#= @class.ReturnTypeName #>> {
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
     public _?: <#= @class.ReturnTypeName #>;
@@ -64,6 +65,7 @@ export enum <#= @enum.Name #> {
 // Used types
 
 <# foreach(var @returnType in this.ReturnTypes) { #>
+
 <# if(@returnType.Documentation != null) {#>
 /**
 <# foreach(var @documentation in @returnType.Documentation) {#>
