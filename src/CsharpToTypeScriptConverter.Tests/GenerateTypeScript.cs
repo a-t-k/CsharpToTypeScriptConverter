@@ -36,10 +36,12 @@ public class Generate
         var classExists = transformedText.Contains("export class ChangeUserRoleRequestCommand implements ICommand<boolean>");
         var requestCommandInterfaceExists = transformedText.Contains("export interface ICommand<T>{ _?: T}");
         var genericTypePropertyHasFullName = transformedText.Contains("users: PaginationResponse<User>;");
+        var documentationOfGetUserRequestCommand = transformedText.Contains("Simple command to get users. Can be filtered and paged.");
 
         Assert.True(enumExists);
         Assert.True(classExists);
         Assert.True(requestCommandInterfaceExists);
         Assert.True(genericTypePropertyHasFullName);
+        Assert.True(documentationOfGetUserRequestCommand);
     }
 }
