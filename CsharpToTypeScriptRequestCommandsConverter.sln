@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{33374E28-C7CF-450E-8996-B9327588B194}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}
 		{C4C27FA6-FB0E-452D-89D4-A69282F4AAB5} = {4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}
+		{33374E28-C7CF-450E-8996-B9327588B194} = {4981C5E0-8883-4CA2-8B8F-4AD3F1F9FE35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {572CEF46-0023-43FF-9FC8-E96D95766E6C}
