@@ -47,7 +47,8 @@ export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceN
  <# foreach(var @documentation in @enum.Documentation) {#>
 * <#= @documentation #>
 <#}#>
-*/<#}#>
+*/
+<#}#>
 export enum <#= @enum.Name #> {
 <#foreach(var member in @enum.Members){#>
 <# if(Enum.GetUnderlyingType(member.Type) == typeof(int)){ #>
