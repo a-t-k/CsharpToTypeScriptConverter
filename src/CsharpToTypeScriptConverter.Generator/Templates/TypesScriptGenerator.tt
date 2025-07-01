@@ -29,7 +29,6 @@ export interface <#=@Settings.RequestCommandInterfaceName#><T>{ _?: T}
 <#}#><#}#>
  * @returns {<#= @class.ReturnTypeName #>}
 */
-
 export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceName#><<#= @class.ReturnTypeName #>> {
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
     public _?: <#= @class.ReturnTypeName #>;
@@ -46,10 +45,8 @@ export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceN
 <# if(@enum.Documentation != null) {#>
 /**
  <# foreach(var @documentation in @enum.Documentation) {#>
- * <#= @documentation #>
-<# } #>
-*/
-<# } #>
+ * <#= @documentation #><#}#>
+*/<#}#>
 export enum <#= @enum.Name #> {
 <#foreach(var member in @enum.Members){#>
 <# if(Enum.GetUnderlyingType(member.Type) == typeof(int)){ #>
@@ -65,14 +62,12 @@ export enum <#= @enum.Name #> {
 // Used types
 
 <# foreach(var @returnType in this.ReturnTypes) { #>
-
 <# if(@returnType.Documentation != null) {#>
 /**
 <# foreach(var @documentation in @returnType.Documentation) {#>
  * <#= @documentation #>
 <# } #>
-*/
-<# } #>
+*/<#}#>
 export interface <#= @returnType.Name #> <# if(@returnType.ImplementsInterfaceTypeNames.Any()){ #>extends <#= string.Join(",", @returnType.ImplementsInterfaceTypeNames[0])#><# }
 #>{
 <#  foreach(var member in @returnType.Members) { #>

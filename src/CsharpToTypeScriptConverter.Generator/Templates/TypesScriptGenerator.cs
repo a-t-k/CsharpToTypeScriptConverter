@@ -100,141 +100,167 @@ foreach(var @documentation in @class.Documentation){
             
             #line default
             #line hidden
-            this.Write("}\r\n*/\r\n\r\nexport class ");
+            this.Write("}\r\n*/\r\nexport class ");
             
-            #line 33 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 32 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.Name));
             
             #line default
             #line hidden
             this.Write(" implements ");
             
-            #line 33 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 32 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@Settings.RequestCommandInterfaceName));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 33 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 32 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.ReturnTypeName));
             
             #line default
             #line hidden
             this.Write("> {\r\n    private readonly $type? = \"");
             
-            #line 34 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 33 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.TypeNameForJsonDeserialization));
             
             #line default
             #line hidden
             this.Write("\";\r\n    public _?: ");
             
-            #line 35 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 34 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.ReturnTypeName));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 36 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 35 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
     foreach(var member in @class.Members) { 
             
             #line default
             #line hidden
             this.Write("    public ");
             
-            #line 37 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 36 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(char.ToLower(member.Name[0]) + member.Name.Substring(1)));
             
             #line default
             #line hidden
             this.Write("?");
             
-            #line 37 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 36 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? ":": ":"));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 37 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 36 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false)));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 38 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 37 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
     } 
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 40 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 39 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n\r\n// Enums\r\n\r\n");
             
-            #line 45 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 44 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  foreach(var @enum in this.Enums) { 
             
             #line default
             #line hidden
             
-            #line 46 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 45 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  if(@enum.Documentation != null) {
             
             #line default
             #line hidden
             this.Write("/**\r\n ");
             
-            #line 48 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 47 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  foreach(var @documentation in @enum.Documentation) {
             
             #line default
             #line hidden
             this.Write(" * ");
             
-            #line 49 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 48 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@documentation));
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 50 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
- } 
+            #line 48 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+}
             
             #line default
             #line hidden
-            this.Write("*/\r\n");
+            this.Write("*/");
             
-            #line 52 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
- } 
+            #line 49 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+}
             
             #line default
             #line hidden
             this.Write("export enum ");
             
-            #line 53 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 50 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@enum.Name));
             
             #line default
             #line hidden
             this.Write(" {\r\n");
             
-            #line 54 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 51 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
 foreach(var member in @enum.Members){
             
             #line default
             #line hidden
             
-            #line 55 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 52 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  if(Enum.GetUnderlyingType(member.Type) == typeof(int)){ 
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 53 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(member.Name.Trim()));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 53 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture((int)Enum.Parse(member.Type, member.Name)));
+            
+            #line default
+            #line hidden
+            this.Write(",\r\n");
+            
+            #line 54 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 55 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+ if(Enum.GetUnderlyingType(member.Type) == typeof(byte)){ 
             
             #line default
             #line hidden
@@ -248,7 +274,7 @@ foreach(var member in @enum.Members){
             this.Write(" = ");
             
             #line 56 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture((int)Enum.Parse(member.Type, member.Name)));
+            this.Write(this.ToStringHelper.ToStringWithCulture((byte)Enum.Parse(member.Type, member.Name)));
             
             #line default
             #line hidden
@@ -261,109 +287,81 @@ foreach(var member in @enum.Members){
             #line hidden
             
             #line 58 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
- if(Enum.GetUnderlyingType(member.Type) == typeof(byte)){ 
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 59 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(member.Name.Trim()));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 59 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture((byte)Enum.Parse(member.Type, member.Name)));
-            
-            #line default
-            #line hidden
-            this.Write(",\r\n");
-            
-            #line 60 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 61 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
 } 
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 63 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 60 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n// Used types\r\n\r\n");
             
-            #line 67 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 64 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  foreach(var @returnType in this.ReturnTypes) { 
             
             #line default
             #line hidden
-            this.Write("\r\n");
             
-            #line 69 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 65 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  if(@returnType.Documentation != null) {
             
             #line default
             #line hidden
             this.Write("/**\r\n");
             
-            #line 71 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 67 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  foreach(var @documentation in @returnType.Documentation) {
             
             #line default
             #line hidden
             this.Write(" * ");
             
-            #line 72 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 68 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@documentation));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 73 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 69 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("*/\r\n");
+            this.Write("*/");
             
-            #line 75 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
- } 
+            #line 70 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+}
             
             #line default
             #line hidden
             this.Write("export interface ");
             
-            #line 76 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 71 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@returnType.Name));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 76 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 71 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  if(@returnType.ImplementsInterfaceTypeNames.Any()){ 
             
             #line default
             #line hidden
             this.Write("extends ");
             
-            #line 76 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 71 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", @returnType.ImplementsInterfaceTypeNames[0])));
             
             #line default
             #line hidden
             
-            #line 76 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 71 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  }
 
             
@@ -371,41 +369,41 @@ foreach(var member in @enum.Members){
             #line hidden
             this.Write("{\r\n");
             
-            #line 78 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 73 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
   foreach(var member in @returnType.Members) { 
             
             #line default
             #line hidden
             this.Write("\t    ");
             
-            #line 79 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 74 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(char.ToLower(member.Name[0]) + member.Name.Substring(1)));
             
             #line default
             #line hidden
             
-            #line 79 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 74 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? ":": ":"));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 79 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 74 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false)));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 80 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 75 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
     } 
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 82 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
+            #line 77 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\TypesScriptGenerator.tt"
  } 
             
             #line default
