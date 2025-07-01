@@ -45,7 +45,8 @@ export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceN
 <# if(@enum.Documentation != null) {#>
 /**
  <# foreach(var @documentation in @enum.Documentation) {#>
- * <#= @documentation #><#}#>
+* <#= @documentation #>
+<#}#>
 */<#}#>
 export enum <#= @enum.Name #> {
 <#foreach(var member in @enum.Members){#>
@@ -62,12 +63,14 @@ export enum <#= @enum.Name #> {
 // Used types
 
 <# foreach(var @returnType in this.ReturnTypes) { #>
+
 <# if(@returnType.Documentation != null) {#>
 /**
 <# foreach(var @documentation in @returnType.Documentation) {#>
  * <#= @documentation #>
 <# } #>
-*/<#}#>
+*/
+<#}#>
 export interface <#= @returnType.Name #> <# if(@returnType.ImplementsInterfaceTypeNames.Any()){ #>extends <#= string.Join(",", @returnType.ImplementsInterfaceTypeNames[0])#><# }
 #>{
 <#  foreach(var member in @returnType.Members) { #>
