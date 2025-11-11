@@ -1,0 +1,9 @@
+#Ignore folders
+**/.vs/
+**/.github/
+**/.git/
+**/obj/
+**/bin/
+
+**/.gitignore
+**/.editorconfig

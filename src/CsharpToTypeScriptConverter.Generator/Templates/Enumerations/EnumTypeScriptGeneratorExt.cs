@@ -5,24 +5,11 @@ using System.Reflection;
 using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Templates
+namespace TypeScriptRequestCommandsGenerator.Templates.Enumerations
 {
-    public partial class TypesScriptGenerator
+    public partial class EnumTypeScriptGenerator
     {
-        public static class Settings
-        {
-            public static string RequestCommandInterfaceName { get; set; } = "ICommand";
-        }
-
-        public GeneratorType[] GeneratorTypes { get; set; }
-
-        private IEnumerable<GeneratorType> Classes => this.GeneratorTypes.Where(t =>
-            t.Kind == GeneratorTypeKind.Class || t.Kind == GeneratorTypeKind.Interface);
-
-        private IEnumerable<GeneratorType> Enums => this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.Enum);
-
-        private IEnumerable<GeneratorType> ReturnTypes =>
-            this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.UsedReturnType);
+        public GeneratorType TypeToGenerate { get; set; }
 
         public static bool GenerateNullableTypesAsType => false;
 

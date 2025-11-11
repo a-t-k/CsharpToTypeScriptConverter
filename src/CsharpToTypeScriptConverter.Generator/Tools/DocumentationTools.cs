@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace TypeScriptRequestCommandsGenerator
+namespace TypeScriptRequestCommandsGenerator.Tools
 {
     /// <summary>
     /// Tolls for creating documentation.
@@ -14,15 +14,17 @@ namespace TypeScriptRequestCommandsGenerator
     internal static class DocumentationTools
     {
         internal static Dictionary<string, string> LoadedXmlDocumentation = new();
+
         public static string GetDirectoryPath(this Assembly assembly)
         {
-            var codeBase = assembly.Location;
+            string codeBase = assembly.Location;
             var uri = new UriBuilder(codeBase);
-            var path = Uri.UnescapeDataString(uri.Path);
+            string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
 
         internal static HashSet<Assembly> LoadedAssemblies = [];
+
         internal static void LoadXmlDocumentation(Assembly assembly)
         {
             if (LoadedAssemblies.Contains(assembly))
@@ -30,8 +32,8 @@ namespace TypeScriptRequestCommandsGenerator
                 return;
             }
 
-            var directoryPath = assembly.GetDirectoryPath();
-            var xmlFilePath = Path.Combine(directoryPath, assembly.GetName().Name + ".xml");
+            string directoryPath = assembly.GetDirectoryPath();
+            string xmlFilePath = Path.Combine(directoryPath, assembly.GetName().Name + ".xml");
             if (File.Exists(xmlFilePath))
             {
                 LoadXmlDocumentation(File.ReadAllText(xmlFilePath));
@@ -44,9 +46,16 @@ namespace TypeScriptRequestCommandsGenerator
             using var xmlReader = XmlReader.Create(new StringReader(xmlDocumentation));
             while (xmlReader.Read())
             {
-                if (xmlReader.NodeType != XmlNodeType.Element || xmlReader.Name != "member") continue;
-                var rawName = xmlReader["name"];
-                if (rawName != null) LoadedXmlDocumentation[rawName] = xmlReader.ReadInnerXml();
+                if (xmlReader.NodeType != XmlNodeType.Element || xmlReader.Name != "member")
+                {
+                    continue;
+                }
+
+                string rawName = xmlReader["name"];
+                if (rawName != null)
+                {
+                    LoadedXmlDocumentation[rawName] = xmlReader.ReadInnerXml();
+                }
             }
         }
 
@@ -86,11 +95,12 @@ namespace TypeScriptRequestCommandsGenerator
         // Helper method to format the key strings
         private static string XmlDocumentationKeyHelper(string typeFullNameString, string memberNameString)
         {
-            var key = Regex.Replace(typeFullNameString, @"\[.*\]", string.Empty).Replace('+', '.');
+            string key = Regex.Replace(typeFullNameString, @"\[.*\]", string.Empty).Replace('+', '.');
             if (memberNameString != null)
             {
                 key += "." + memberNameString;
             }
+
             return key;
         }
 
@@ -99,24 +109,27 @@ namespace TypeScriptRequestCommandsGenerator
             return fullDocumentation?.Split("\n").Select(x => x?.Trim())
                 .Where(x => !string.IsNullOrWhiteSpace(x) && x != "<summary>" && x != "</summary>").ToArray();
         }
+
         public static string GetDocumentation(this Type type)
         {
             LoadXmlDocumentation(type.Assembly);
-            var key = "T:" + XmlDocumentationKeyHelper(type.FullName, null);
+            string key = "T:" + XmlDocumentationKeyHelper(type.FullName, null);
             LoadedXmlDocumentation.TryGetValue(key, out string documentation);
             return documentation;
         }
+
         public static string GetDocumentation(this PropertyInfo propertyInfo)
         {
             string documentation = null;
             if (propertyInfo.DeclaringType != null)
             {
-                var key = "P:" + XmlDocumentationKeyHelper(propertyInfo.DeclaringType.FullName, propertyInfo.Name);
+                string key = "P:" + XmlDocumentationKeyHelper(propertyInfo.DeclaringType.FullName, propertyInfo.Name);
                 LoadedXmlDocumentation.TryGetValue(key, out documentation);
             }
 
             return documentation;
         }
+
         public static string GetDocumentation(this ParameterInfo parameterInfo)
         {
             string memberDocumentation = parameterInfo.Member.GetDocumentation();
@@ -126,12 +139,13 @@ namespace TypeScriptRequestCommandsGenerator
                     Regex.Escape(@"<param name=" + "\"" + parameterInfo.Name + "\"" + @">") +
                     ".*?" +
                     Regex.Escape(@"</param>");
-                Match match = Regex.Match(memberDocumentation, regexPattern);
+                var match = Regex.Match(memberDocumentation, regexPattern);
                 if (match.Success)
                 {
                     return match.Value;
                 }
             }
+
             return null;
         }
     }

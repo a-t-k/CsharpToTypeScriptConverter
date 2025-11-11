@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace TypeScriptRequestCommandsGenerator.Models;
+
 public class GeneratorType
 {
     public string Name { get; set; }
@@ -10,4 +12,6 @@ public class GeneratorType
     public IEnumerable<GeneratorMember> Members { get; set; }
     public string[] ImplementsInterfaceTypeNames { get; set; } = [];
     public string[] Documentation { get; set; }
+    public string GeneratedCode { get; set; }
+    public Type Type { get; set; }
 }
