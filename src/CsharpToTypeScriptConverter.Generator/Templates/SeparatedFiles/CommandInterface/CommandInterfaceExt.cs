@@ -1,4 +1,4 @@
-namespace TypeScriptRequestCommandsGenerator.Templates.CommandInterface
+namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface
 {
     public partial class CommandInterface
     {

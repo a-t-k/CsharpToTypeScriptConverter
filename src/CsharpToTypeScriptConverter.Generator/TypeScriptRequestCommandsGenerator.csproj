@@ -33,31 +33,31 @@
 	  <PackageReference Include="System.CodeDom" Version="9.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="Templates\TypeScriptImports\TypeScriptImports.tt">
+	  <None Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.tt">
 	    <LastGenOutput>TypeScriptImports.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\CodeGenerationWarning\CodeGenerationWarning.tt">
+	  <None Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.tt">
 	    <LastGenOutput>CodeGenerationWarning.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\CommandInterface\CommandInterface.tt">
+	  <None Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.tt">
 	    <LastGenOutput>CommandInterface.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\Commands\CommandTypeScriptGenerator.tt">
+	  <None Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt">
 	    <LastGenOutput>CommandTypeScriptGenerator.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\ComplexTypes\ComplexTypeScriptGenerator.tt">
+	  <None Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt">
 	    <LastGenOutput>ComplexTypeScriptGenerator.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\Enumerations\EnumTypeScriptGenerator.tt">
+	  <None Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.tt">
 	    <LastGenOutput>EnumTypeScriptGenerator.cs</LastGenOutput>
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	  </None>
-	  <None Update="Templates\TypesScriptGenerator.tt">
+	  <None Update="Templates\OneFIle\TypesScriptGenerator.tt">
 	    <Generator>TextTemplatingFilePreprocessor</Generator>
 	    <LastGenOutput>TypesScriptGenerator.cs</LastGenOutput>
 	  </None>
@@ -67,40 +67,40 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Templates\CodeGenerationWarning\CodeGenerationWarning.cs">
+	  <Compile Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.cs">
 	    <DependentUpon>CodeGenerationWarning.tt</DependentUpon>
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	  </Compile>
-	  <Compile Update="Templates\CommandInterface\CommandInterface.cs">
+	  <Compile Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>CommandInterface.tt</DependentUpon>
 	  </Compile>
-	  <Compile Update="Templates\Commands\CommandTypeScriptGenerator.cs">
+	  <Compile Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>CommandTypeScriptGenerator.tt</DependentUpon>
 	  </Compile>
-	  <Compile Update="Templates\ComplexTypes\ComplexTypeScriptGenerator.cs">
+	  <Compile Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>ComplexTypeScriptGenerator.tt</DependentUpon>
 	  </Compile>
-	  <Compile Update="Templates\Enumerations\EnumTypeScriptGenerator.cs">
+	  <Compile Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>EnumTypeScriptGenerator.tt</DependentUpon>
 	  </Compile>
-	  <Compile Update="Templates\TypeScriptImports\TypeScriptImports.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>TypeScriptImports.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\TypesScriptGenerator.cs">
+	  <Compile Update="Templates\OneFIle\TypesScriptGenerator.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>TypesScriptGenerator.tt</DependentUpon>
+	  </Compile>
+	  <Compile Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>TypeScriptImports.tt</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 </Project>

@@ -1,19 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Templates;
-using TypeScriptRequestCommandsGenerator.Templates.OneFIle;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
 using TypeScriptRequestCommandsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
+namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
 {
-    public class OneFileGenerator
+    public class SeparatedFilesGenerator
     {
+        private readonly Dictionary<string, Type> usedTypes = new();
+        private readonly List<Type> typesToGenerate = [];
+        private readonly TypeFileGenerator typeFileGenerator;
+
         private Type interfaceFilterType;
         private Type returnTypeOfCommands;
 
-        private readonly Dictionary<string, Type> usedTypes = new();
-        private readonly List<Type> typesToGenerate = [];
+        public SeparatedFilesGenerator()
+        {
+            this.typeFileGenerator = new TypeFileGenerator();
+        }
 
         /// <summary>
         /// Set interface name for commands in a target language.
@@ -21,9 +26,10 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
         /// </summary>
         /// <param name="requestCommandInterfaceName"></param>
         /// <returns></returns>
-        public OneFileGenerator SetRequestCommandInterfaceNameForGeneratedCommands(string requestCommandInterfaceName)
+        public SeparatedFilesGenerator SetRequestCommandInterfaceNameForGeneratedCommands(
+            string requestCommandInterfaceName)
         {
-            TypesScriptGenerator.Settings.RequestCommandInterfaceName = requestCommandInterfaceName;
+            CommandInterface.Settings.RequestCommandInterfaceName = requestCommandInterfaceName?.Trim();
             return this;
         }
 
@@ -34,7 +40,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
         /// </summary>
         /// <param name="interfaceFilterType"></param>
         /// <returns></returns>
-        public OneFileGenerator SetInterfaceFilter(Type interfaceFilterType)
+        public SeparatedFilesGenerator SetInterfaceFilter(Type interfaceFilterType)
         {
             this.interfaceFilterType = interfaceFilterType;
             return this;
@@ -45,7 +51,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
         /// </summary>
         /// <param name="returnTypeOfCommands"></param>
         /// <returns></returns>
-        public OneFileGenerator SetReturnTypeOfCommands(Type returnTypeOfCommands)
+        public SeparatedFilesGenerator SetReturnTypeOfCommands(Type returnTypeOfCommands)
         {
             this.returnTypeOfCommands = returnTypeOfCommands;
             return this;
@@ -56,13 +62,13 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
         /// </summary>
         /// <param name="typesToGenerate"></param>
         /// <returns></returns>
-        public OneFileGenerator AddRangeOfTypesToGenerate(IEnumerable<Type> typesToGenerate)
+        public SeparatedFilesGenerator AddRangeOfTypesToGenerate(IEnumerable<Type> typesToGenerate)
         {
             this.typesToGenerate.AddRange(typesToGenerate);
             return this;
         }
 
-        public OneFileGeneratorWithMetaData GenerateMetadata()
+        public SeparatedFilesGeneratorWithMetaData GenerateMetadata()
         {
             var typesMetadata = MetadataHelper.GetGeneratorTypesMetadata(this.typesToGenerate, this.interfaceFilterType,
                 this.returnTypeOfCommands, this.usedTypes);
@@ -76,7 +82,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
 
             // distinct all generated types
             var distinctMetadata = typesMetadata.GroupBy(x => x.Name).Select(x => x.First()).ToArray();
-            return new OneFileGeneratorWithMetaData(distinctMetadata);
+            return new SeparatedFilesGeneratorWithMetaData(distinctMetadata, this.typeFileGenerator);
         }
     }
 }

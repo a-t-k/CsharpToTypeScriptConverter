@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TypeScriptRequestCommandsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Templates.TypeScriptImports;
+namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.TypeScriptImports;
 
 public partial class TypeScriptImports
 {

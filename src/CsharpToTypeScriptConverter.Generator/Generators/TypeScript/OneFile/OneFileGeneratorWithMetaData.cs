@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Templates;
+using TypeScriptRequestCommandsGenerator.Templates.OneFIle;
 
 namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
 {

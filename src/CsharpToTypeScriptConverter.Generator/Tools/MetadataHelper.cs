@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Templates;
+using TypeScriptRequestCommandsGenerator.Templates.OneFIle;
 
 namespace TypeScriptRequestCommandsGenerator.Tools;
 

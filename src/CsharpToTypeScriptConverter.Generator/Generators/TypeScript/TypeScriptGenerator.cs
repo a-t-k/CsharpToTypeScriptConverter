@@ -1,18 +1,12 @@
 using TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile;
-using TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles;
+using TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles;
 
 namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript
 {
     public class TypeScriptGenerator
     {
-        public OneFileGenerator OneFile()
-        {
-            return new OneFileGenerator();
-        }
+        public OneFileGenerator OneFile() => new();
 
-        public SeparatedFilesGenerator SeparatedFiles()
-        {
-            return new SeparatedFilesGenerator();
-        }
+        public SeparatedFilesGenerator SeparatedFiles() => new();
     }
 }

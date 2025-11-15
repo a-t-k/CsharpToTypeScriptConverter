@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Templates.CodeGenerationWarning;
-using TypeScriptRequestCommandsGenerator.Templates.CommandInterface;
-using TypeScriptRequestCommandsGenerator.Templates.Commands;
-using TypeScriptRequestCommandsGenerator.Templates.ComplexTypes;
-using TypeScriptRequestCommandsGenerator.Templates.Enumerations;
-using TypeScriptRequestCommandsGenerator.Templates.TypeScriptImports;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Commands;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTypes;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Enumerations;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.TypeScriptImports;
 using TypeScriptRequestCommandsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles
+namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
 {
-    public class SeparatedFilesGeneratorWithMetaData(GeneratorType[] metadata)
+    public class SeparatedFilesGeneratorWithMetaData(GeneratorType[] metadata, TypeFileGenerator typeFileGenerator)
     {
         public SeparatedFilesGeneratorWithRenderedTypes Generate(List<Type> ignoredCustomerTypes = null)
         {
-            var typeFileGenerator = new TypeFileGenerator();
-
-            // generate warning header
+            // generate generation text warning header
             string warningHeaderGenerated = new CodeGenerationWarning().TransformText();
 
             // generate interface for commands
             string generatedTypeScriptCommandInterface = new CommandInterface().TransformText().Trim();
-
-            var fileToSave = new FileMetadata
+            var commandInterfaceFileToSave = new FileMetadata
             {
                 TransformedText = generatedTypeScriptCommandInterface,
                 FilePath = Path.Combine(""),
@@ -61,7 +58,8 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles
                 }).ToList();
                 result.Add(new TypeScriptImportDependency
                 {
-                    Name = CommandInterface.Settings.RequestCommandInterfaceName, Path = "./" + fileToSave.FileName
+                    Name = CommandInterface.Settings.RequestCommandInterfaceName,
+                    Path = "./" + commandInterfaceFileToSave.FileName
                 });
 
                 string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
@@ -99,7 +97,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles
                 };
             }).ToArray();
 
-            var allGeneration = new List<FileMetadata> { fileToSave };
+            var allGeneration = new List<FileMetadata> { commandInterfaceFileToSave };
             allGeneration.AddRange(enumTypesGenerated);
             allGeneration.AddRange(generatedCommands);
             allGeneration.AddRange(generatedUsedTypes);

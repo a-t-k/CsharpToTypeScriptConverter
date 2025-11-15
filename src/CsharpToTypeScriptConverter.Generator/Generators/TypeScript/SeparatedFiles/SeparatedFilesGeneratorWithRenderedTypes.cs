@@ -3,16 +3,14 @@ using System.IO;
 using System.Linq;
 using TypeScriptRequestCommandsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles
+namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
 {
     public class SeparatedFilesGeneratorWithRenderedTypes
     {
         private readonly List<FileMetadata> allGeneration;
 
-        public SeparatedFilesGeneratorWithRenderedTypes(List<FileMetadata> allGeneration)
-        {
+        public SeparatedFilesGeneratorWithRenderedTypes(List<FileMetadata> allGeneration) =>
             this.allGeneration = allGeneration;
-        }
 
         public BuildedSeparatedFiles Build(string outputDirectory)
         {

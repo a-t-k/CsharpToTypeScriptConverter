@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SplitedFiles
+namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
 {
     public class BuildedSeparatedFiles
     {

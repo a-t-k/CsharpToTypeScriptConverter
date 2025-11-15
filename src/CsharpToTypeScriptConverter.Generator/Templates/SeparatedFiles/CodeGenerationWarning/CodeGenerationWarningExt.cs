@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace TypeScriptRequestCommandsGenerator.Templates.CodeGenerationWarning;
+namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
 
 public partial class CodeGenerationWarning
 {
