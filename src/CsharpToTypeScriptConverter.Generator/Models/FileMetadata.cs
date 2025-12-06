@@ -8,5 +8,7 @@ namespace TypeScriptRequestCommandsGenerator.Models
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public Type Type { get; set; }
+        public string Name { get; set; }
+        public FileMetadataType FileMetadataType { get; set; }
     }
 }

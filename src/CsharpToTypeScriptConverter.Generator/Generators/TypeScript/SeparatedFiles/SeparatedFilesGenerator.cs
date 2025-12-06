@@ -81,7 +81,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
             typesMetadata.AddRange(newMetaData);
 
             // distinct all generated types
-            var distinctMetadata = typesMetadata.GroupBy(x => x.Name).Select(x => x.First()).ToArray();
+            var distinctMetadata = typesMetadata.GroupBy(x => x.Type).Select(x => x.First()).ToArray();
             return new SeparatedFilesGeneratorWithMetaData(distinctMetadata, this.typeFileGenerator);
         }
     }

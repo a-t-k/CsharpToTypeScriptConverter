@@ -7,16 +7,18 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 {
     public class SeparatedFilesGeneratorWithRenderedTypes
     {
-        private readonly List<FileMetadata> allGeneration;
+        private readonly List<FileMetadata> fileMetadata;
 
-        public SeparatedFilesGeneratorWithRenderedTypes(List<FileMetadata> allGeneration) =>
-            this.allGeneration = allGeneration;
+        public SeparatedFilesGeneratorWithRenderedTypes(List<FileMetadata> fileMetadata) =>
+            this.fileMetadata = fileMetadata;
 
         public BuildedSeparatedFiles Build(string outputDirectory)
         {
+            this.PreventNameCollision();
+
             var buildFiles = new List<BuildFile>();
             var groups =
-                this.allGeneration.GroupBy(f => Path.Combine(outputDirectory, Path.Combine(f.FilePath.Split("/"))))
+                this.fileMetadata.GroupBy(f => Path.Combine(outputDirectory, Path.Combine(f.FilePath.Split("/"))))
                     .ToArray();
 
             foreach (var group in groups)
@@ -24,36 +26,81 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                 string directoryPath = group.Key;
                 string apiFilePath = Path.Combine(directoryPath, "api.ts");
                 string apiContent = this.CreateApiContent(group.ToList());
-                buildFiles.Add(new BuildFile { Path = apiFilePath, Content = apiContent });
-                foreach (var fileMetadata in group)
+                buildFiles.Add(new BuildFile
+                {
+                    BuildFiLeType = BuildFiLeType.ApiFile, Path = apiFilePath, Content = apiContent
+                });
+                foreach (var fileMetadataFromGroup in group)
                 {
                     buildFiles.Add(new BuildFile
                     {
-                        Path = Path.Combine(directoryPath, fileMetadata.FileName),
-                        Content = fileMetadata.TransformedText
+                        BuildFiLeType = BuildFiLeType.GeneratedCSharpSource,
+                        Path = Path.Combine(directoryPath, fileMetadataFromGroup.FileName),
+                        Content = fileMetadataFromGroup.TransformedText
                     });
                 }
             }
 
             string indexContent = this.CreateIndexContent(groups);
-            buildFiles.Add(new BuildFile { Path = Path.Combine(outputDirectory, "index.ts"), Content = indexContent });
+            buildFiles.Add(new BuildFile
+            {
+                BuildFiLeType = BuildFiLeType.IndexFile,
+                Path = Path.Combine(outputDirectory, "index.ts"),
+                Content = indexContent
+            });
 
             return new BuildedSeparatedFiles(buildFiles, outputDirectory, groups);
         }
 
-        private string CreateApiContent(List<FileMetadata> filesMetadata)
+        /// <summary>
+        /// Prevent name collisions by appending a counter to files with the same name.
+        /// </summary>
+        private void PreventNameCollision()
+        {
+            // TODO: Generate better unique names, e.g., based on namespace or folder structure.
+            // TODO: Logging can be added to inform about name changes.
+            var sameNameGroups = this.fileMetadata.GroupBy(x => x.Name);
+            foreach (var sameNameGroup in sameNameGroups)
+            {
+                if (sameNameGroup.Count() > 1)
+                {
+                    int counter = 0;
+                    foreach (var fileMetadataFromGroup in sameNameGroup)
+                    {
+                        if (counter > 0)
+                        {
+                            string newName = $"{fileMetadataFromGroup.Name}_{counter}";
+                            while (this.fileMetadata.Any(x => x.Name == newName))
+                            {
+                                counter++;
+                                newName = $"{fileMetadataFromGroup.Name}_{counter}";
+                            }
+
+                            fileMetadataFromGroup.Name = newName;
+                        }
+
+                        counter++;
+                    }
+                }
+            }
+        }
+
+        private string CreateApiContent(List<FileMetadata> fileMetadataCollection)
         {
             var exports = new List<string>();
 
-            foreach (var fileMetadata in filesMetadata)
+            foreach (var fileMetaData in fileMetadataCollection)
             {
-                string fileName = Path.GetFileNameWithoutExtension(fileMetadata.FileName);
-                string path = string.IsNullOrWhiteSpace(fileMetadata.FilePath)
-                    ? fileName
-                    : fileMetadata.FilePath + "/" + fileName;
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileMetaData.FileName);
+                string path = string.IsNullOrWhiteSpace(fileMetaData.FilePath)
+                    ? fileNameWithoutExtension
+                    : fileMetaData.FilePath + "/" + fileNameWithoutExtension;
+                string exportType = fileMetaData.Name == fileNameWithoutExtension
+                    ? $"{{ {fileNameWithoutExtension} }}"
+                    : $"{{ {fileNameWithoutExtension} as {fileMetaData.Name} }}";
 
                 exports.Add($"""
-                             export * from "./{path}";
+                             export {exportType} from "./{path}";
                              """);
             }
 
