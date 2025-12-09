@@ -1,102 +1,106 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>library</OutputType>
-		<TargetFramework>net9.0</TargetFramework>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Generates Classes. Enums from C# to TypeScript</Title>
-		<Version>0.9.1</Version>
-		<Description>Generates classes, enums, interfaces from c# to type script code. Support generics and arrays. Create one file or separated files.</Description>
-		<RepositoryUrl>https://github.com/a-t-k/CsharpToTypeScriptConverter</RepositoryUrl>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-	</PropertyGroup>
+    <PropertyGroup>
+        <OutputType>library</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Title>Generates Classes. Enums from C# to TypeScript</Title>
+        <Version>0.9.1</Version>
+        <Description>Generates classes, enums, interfaces from c# to type script code. Support generics and arrays. Create one file or separated files.</Description>
+        <RepositoryUrl>https://github.com/a-t-k/CsharpToTypeScriptConverter</RepositoryUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <None Include="..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.CodeAnalysis" Version="4.14.0" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-	  <PackageReference Include="System.CodeDom" Version="9.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.tt">
-	    <LastGenOutput>TypeScriptImports.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.tt">
-	    <LastGenOutput>CodeGenerationWarning.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.tt">
-	    <LastGenOutput>CommandInterface.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt">
-	    <LastGenOutput>CommandTypeScriptGenerator.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt">
-	    <LastGenOutput>ComplexTypeScriptGenerator.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.tt">
-	    <LastGenOutput>EnumTypeScriptGenerator.cs</LastGenOutput>
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	  </None>
-	  <None Update="Templates\OneFIle\TypesScriptGenerator.tt">
-	    <Generator>TextTemplatingFilePreprocessor</Generator>
-	    <LastGenOutput>TypesScriptGenerator.cs</LastGenOutput>
-	  </None>
-	</ItemGroup>
-	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+        <PackageReference Include="System.CodeDom" Version="9.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.tt">
+            <LastGenOutput>TypeScriptImports.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.tt">
+            <LastGenOutput>CodeGenerationWarning.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.tt">
+            <LastGenOutput>CommandInterface.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt">
+            <LastGenOutput>CommandTypeScriptGenerator.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt">
+            <LastGenOutput>ComplexTypeScriptGenerator.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.tt">
+            <LastGenOutput>EnumTypeScriptGenerator.cs</LastGenOutput>
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+        </None>
+        <None Update="Templates\OneFIle\TypesScriptGenerator.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <LastGenOutput>TypesScriptGenerator.cs</LastGenOutput>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.cs">
-	    <DependentUpon>CodeGenerationWarning.tt</DependentUpon>
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	  </Compile>
-	  <Compile Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>CommandInterface.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>CommandTypeScriptGenerator.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ComplexTypeScriptGenerator.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>EnumTypeScriptGenerator.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\OneFIle\TypesScriptGenerator.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>TypesScriptGenerator.tt</DependentUpon>
-	  </Compile>
-	  <Compile Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>TypeScriptImports.tt</DependentUpon>
-	  </Compile>
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Update="Templates\SeparatedFiles\CodeGenerationWarning\CodeGenerationWarning.cs">
+            <DependentUpon>CodeGenerationWarning.tt</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="Templates\SeparatedFiles\CommandInterface\CommandInterface.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>CommandInterface.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>CommandTypeScriptGenerator.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ComplexTypeScriptGenerator.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>EnumTypeScriptGenerator.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Templates\OneFIle\TypesScriptGenerator.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>TypesScriptGenerator.tt</DependentUpon>
+        </Compile>
+        <Compile Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>TypeScriptImports.tt</DependentUpon>
+        </Compile>
+    </ItemGroup>
 </Project>
