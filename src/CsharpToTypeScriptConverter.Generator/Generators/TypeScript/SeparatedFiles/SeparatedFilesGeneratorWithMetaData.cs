@@ -83,7 +83,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 
             var generatedUsedTypes = metadata.Where(x => x.Kind == GeneratorTypeKind.Class).Select(c =>
             {
-                string commandGenerated = new ComplexTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
+                string generatedType = new ComplexTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
                 var dependencies = new TypeDependencyResolver(ignoredCustomerTypes).GetDependencies(c.Type, false);
                 var fileGenerator = new TypeFileGenerator();
                 string name = fileGenerator.GetFileNameFromType(c.Type);
@@ -101,7 +101,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                 {
                     FileMetadataType = FileMetadataType.UsedType,
                     Name = name,
-                    TransformedText = generatedWarning + importsGenerated + commandGenerated,
+                    TransformedText = generatedWarning + importsGenerated + generatedType,
                     FilePath = Path.Combine(fileGenerator.NamespacePath(c.Type)),
                     FileName = this.GetFileName(name),
                     Type = c.Type

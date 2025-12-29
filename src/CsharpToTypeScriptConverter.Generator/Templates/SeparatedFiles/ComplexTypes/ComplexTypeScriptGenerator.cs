@@ -28,70 +28,70 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTyp
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n\"use strict\";\r\n");
+            this.Write("\r\n");
             
-            #line 8 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 7 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  var @type = this.TypeToGenerate; 
             
             #line default
             #line hidden
             
-            #line 9 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 8 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  if(@type.Documentation != null) {
             
             #line default
             #line hidden
             this.Write("/**\r\n");
             
-            #line 11 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 10 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  foreach(var @documentation in @type.Documentation) {
             
             #line default
             #line hidden
             this.Write(" * ");
             
-            #line 12 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 11 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@documentation));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 13 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 12 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("*/\r\n");
             
-            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 14 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
 }
             
             #line default
             #line hidden
             this.Write("export interface ");
             
-            #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@type.Name));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  if(@type.ImplementsInterfaceTypeNames.Any()){ 
             
             #line default
             #line hidden
             this.Write("extends ");
             
-            #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", @type.ImplementsInterfaceTypeNames[0])));
             
             #line default
             #line hidden
             
-            #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
  }
 
             
@@ -99,34 +99,34 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTyp
             #line hidden
             this.Write("{\r\n");
             
-            #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 17 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
   foreach(var member in @type.Members) { 
             
             #line default
             #line hidden
             this.Write("\t    ");
             
-            #line 19 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(char.ToLower(member.Name[0]) + member.Name.Substring(1)));
             
             #line default
             #line hidden
             
-            #line 19 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? ":": ":"));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 19 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false)));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 20 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
+            #line 19 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
     } 
             
             #line default

@@ -27,9 +27,9 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInt
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n\"use strict\";\r\n/** request command interface */\r\nexport interface ");
+            this.Write("\r\n/** request command interface */\r\nexport interface ");
             
-            #line 8 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\CommandInterface\CommandInterface.tt"
+            #line 7 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\CommandInterface\CommandInterface.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@Settings.RequestCommandInterfaceName));
             
             #line default

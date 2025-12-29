@@ -89,7 +89,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 
             // get metadata for extra types
             var extraTypesMetadata = MetadataHelper.GetGeneratorTypesMetadata(this.extraTypesToGenerate,
-                this.returnTypeOfCommands);
+                null);
 
             typesMetadata.AddRange(generatedCommands);
             typesMetadata.AddRange(extraTypesMetadata);

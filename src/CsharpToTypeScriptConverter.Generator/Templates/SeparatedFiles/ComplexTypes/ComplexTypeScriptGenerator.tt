@@ -4,7 +4,6 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 
-"use strict";
 <# var @type = this.TypeToGenerate; #>
 <# if(@type.Documentation != null) {#>
 /**

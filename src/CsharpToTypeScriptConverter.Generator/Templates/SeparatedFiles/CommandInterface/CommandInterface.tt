@@ -3,6 +3,5 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 
-"use strict";
 /** request command interface */
 export interface <#=@Settings.RequestCommandInterfaceName#><T>{ _?: T}

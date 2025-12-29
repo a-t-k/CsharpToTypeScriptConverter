@@ -28,7 +28,7 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Enumeratio
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\"use strict\";\r\n");
+            this.Write("\r\n");
             
             #line 7 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.tt"
  var @enum = this.TypeToGenerate; 

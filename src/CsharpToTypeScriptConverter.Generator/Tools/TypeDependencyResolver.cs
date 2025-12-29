@@ -25,9 +25,13 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         [
             typeof(List<>),
             typeof(IList),
+            typeof(IList<>),
             typeof(IEnumerable),
+            typeof(IEnumerable<>),
             typeof(ICollection),
+            typeof(ICollection<>),
             typeof(IQueryable),
+            typeof(IQueryable<>),
             typeof(Array)
         ];
 
@@ -52,7 +56,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                 return dependencies.Distinct().Where(x => this.IsNotIgnoredCSharpType(x.type)).ToList();
             }
 
-            if (type.IsGenericType)
+            if (type.IsGenericType && !type.IsGenericTypeDefinition)
             {
                 foreach (var argument in type.GetGenericArguments())
                 {
@@ -62,7 +66,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
 
             if (includeSelf)
             {
-                if (type.IsGenericType)
+                if (type.IsGenericType && !type.IsGenericTypeDefinition)
                 {
                     dependencies.Add((type.GetGenericTypeDefinition(), this.GetTypeKind(type)));
                 }
@@ -136,7 +140,13 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         {
             foreach (var type in types)
             {
-                if (type.IsGenericType)
+                // its "T" as Class with empty GUID and empty FullName. Only for generic definition
+                if (type.IsGenericTypeParameter)
+                {
+                    continue;
+                }
+
+                if (type.IsGenericType && !type.IsGenericTypeDefinition)
                 {
                     this.ResolveGenericsFromType(type.GetGenericArguments(), dependencies);
                 }
