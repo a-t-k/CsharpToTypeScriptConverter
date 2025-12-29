@@ -16,7 +16,7 @@ namespace CsharpToTypeScriptConverter.Tests
                 .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
                 .SetInterfaceFilter(typeof(IRequestCommand))
                 .SetReturnTypeOfCommands(typeof(ICommand<>))
-                .AddRangeOfTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfCommandTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
                 .GenerateMetadata()
                 .Generate([typeof(ICommand<>), typeof(IRequestCommand)])
                 .Build(outputDirectory);
@@ -40,9 +40,11 @@ namespace CsharpToTypeScriptConverter.Tests
                 .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
                 .SetInterfaceFilter(typeof(IRequestCommand))
                 .SetReturnTypeOfCommands(typeof(ICommand<>))
-                .AddRangeOfTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
-                .AddRangeOfTypesToGenerate(typeof(NameSpaceForNameCollision.UserRoles).Assembly.ExportedTypes)
-                .AddRangeOfTypesToGenerate(typeof(UserRoles_1).Assembly.ExportedTypes)
+                .AddRangeOfCommandTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfExtraTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfExtraTypesToGenerate(typeof(NameSpaceForNameCollision.UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfExtraTypesToGenerate(typeof(UserRoles_1).Assembly.ExportedTypes)
+                .AddRangeOfExtraTypesToGenerate([typeof(ClassWithoutReferences.ClassWithoutReferences)])
                 .GenerateMetadata()
                 .Generate([typeof(ICommand<>), typeof(IRequestCommand)])
                 .Build(outputDirectory);
@@ -53,6 +55,51 @@ namespace CsharpToTypeScriptConverter.Tests
 
             Assert.True(countIndexFiles == 1);
             Assert.True(countCollisionFreeNameInApiContent == 1);
+        }
+
+
+        [Fact]
+        public void Generating_ChangeUserRoleRequestCommand_Works()
+        {
+            string outputDirectory = "test";
+            var interfaceFilterType = typeof(IRequestCommand);
+            var interfaceCommandType = typeof(ICommand<>);
+            var generator = new Generator()
+                .TypeScript()
+                .SeparatedFiles()
+                .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
+                .SetInterfaceFilter(interfaceFilterType)
+                .SetReturnTypeOfCommands(interfaceCommandType)
+                .AddRangeOfCommandTypesToGenerate([typeof(ChangeUserRoleRequestCommand)])
+                .GenerateMetadata()
+                .Generate([interfaceCommandType, interfaceFilterType])
+                .Build(outputDirectory);
+
+            int countIndexFiles = generator.BuildFiles.Count(f => f.Path.EndsWith("index.ts"));
+
+            Assert.True(countIndexFiles == 1);
+        }
+
+        [Fact]
+        public void Generating_GetUsersRequestCommand_Works()
+        {
+            string outputDirectory = "test";
+            var interfaceFilterType = typeof(IRequestCommand);
+            var interfaceCommandType = typeof(ICommand<>);
+            var generator = new Generator()
+                .TypeScript()
+                .SeparatedFiles()
+                .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
+                .SetInterfaceFilter(interfaceFilterType)
+                .SetReturnTypeOfCommands(interfaceCommandType)
+                .AddRangeOfCommandTypesToGenerate([typeof(GetUsersRequestCommand)])
+                .GenerateMetadata()
+                .Generate([interfaceCommandType, interfaceFilterType])
+                .Build(outputDirectory);
+
+            int countIndexFiles = generator.BuildFiles.Count(f => f.Path.EndsWith("index.ts"));
+
+            Assert.True(countIndexFiles == 1);
         }
     }
 }

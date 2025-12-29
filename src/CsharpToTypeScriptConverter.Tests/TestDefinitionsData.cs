@@ -99,3 +99,12 @@ namespace CollisionFreeNamespaceWithCollisionTypeNames
         Admin
     }
 }
+
+namespace ClassWithoutReferences
+{
+    public class ClassWithoutReferences
+    {
+        public string Name { get; set; }
+        public string Age { get; set; }
+    }
+}

@@ -14,7 +14,7 @@
 <#}#><#}#>
  * @returns {<#= @class.ReturnTypeName #>}
 */
-export class <#= @class.Name #> implements <#=@Settings.RequestCommandInterfaceName#><<#= @class.ReturnTypeName #>> {
+export class <#= @class.Name #> implements <#=@class.GetImplementsInterfaceTypeNames#> {
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
     public _?: <#= @class.ReturnTypeName #>;
 <#    foreach(var member in @class.Members) { #>

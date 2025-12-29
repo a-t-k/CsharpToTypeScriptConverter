@@ -21,8 +21,8 @@ namespace TypeScriptRequestCommandsGenerator.Templates.OneFIle
 
         private IEnumerable<GeneratorType> Enums => this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.Enum);
 
-        private IEnumerable<GeneratorType> ReturnTypes =>
-            this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.UsedReturnType);
+        private IEnumerable<GeneratorType> CommandClasses =>
+            this.GeneratorTypes.Where(t => t.Kind == GeneratorTypeKind.CommandClass);
 
         public static bool GenerateNullableTypesAsType => false;
 

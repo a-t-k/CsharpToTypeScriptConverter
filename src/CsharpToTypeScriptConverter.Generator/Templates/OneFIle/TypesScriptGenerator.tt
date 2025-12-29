@@ -20,7 +20,7 @@ export interface <#=@Settings.RequestCommandInterfaceName#><T>{ _?: T}
 
 // all request commands as classes
 
-<# foreach(var @class in this.Classes) { #>
+<# foreach(var @class in this.CommandClasses) { #>
 
 /**
 <#if(@class.Documentation != null){#>
@@ -63,7 +63,7 @@ export enum <#= @enum.Name #> {
 
 // Used types
 
-<# foreach(var @returnType in this.ReturnTypes) { #>
+<# foreach(var @returnType in this.Classes) { #>
 
 <# if(@returnType.Documentation != null) {#>
 /**

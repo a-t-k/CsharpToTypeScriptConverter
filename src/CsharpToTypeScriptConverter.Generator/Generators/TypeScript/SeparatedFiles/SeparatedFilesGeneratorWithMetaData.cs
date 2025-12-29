@@ -49,7 +49,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
             }).ToArray();
 
             // all commands
-            var generatedCommands = metadata.Where(x => x.Kind == GeneratorTypeKind.Class).Select(c =>
+            var generatedCommands = metadata.Where(x => x.Kind == GeneratorTypeKind.CommandClass).Select(c =>
             {
                 string commandGenerated = new CommandTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
                 var dependencies = new TypeDependencyResolver(ignoredCustomerTypes).GetDependencies(c.Type, false);
@@ -81,7 +81,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                 };
             }).ToArray();
 
-            var generatedUsedTypes = metadata.Where(x => x.Kind == GeneratorTypeKind.UsedReturnType).Select(c =>
+            var generatedUsedTypes = metadata.Where(x => x.Kind == GeneratorTypeKind.Class).Select(c =>
             {
                 string commandGenerated = new ComplexTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
                 var dependencies = new TypeDependencyResolver(ignoredCustomerTypes).GetDependencies(c.Type, false);

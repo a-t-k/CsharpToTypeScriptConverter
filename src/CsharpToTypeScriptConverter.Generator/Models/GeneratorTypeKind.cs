@@ -1,8 +1,10 @@
-﻿namespace TypeScriptRequestCommandsGenerator.Models;
-public enum GeneratorTypeKind
+namespace TypeScriptRequestCommandsGenerator.Models
 {
-    Interface,
-    Enum,
-    Class,
-    UsedReturnType
+    public enum GeneratorTypeKind
+    {
+        Interface,
+        Enum,
+        Class,
+        CommandClass
+    }
 }

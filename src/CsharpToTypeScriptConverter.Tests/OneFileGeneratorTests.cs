@@ -13,7 +13,8 @@ namespace CsharpToTypeScriptConverter.Tests
                 .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
                 .SetInterfaceFilter(typeof(IRequestCommand))
                 .SetReturnTypeOfCommands(typeof(ICommand<>))
-                .AddRangeOfTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfCommandTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
+                .AddRangeOfExtraTypesToGenerate(typeof(UserRoles).Assembly.ExportedTypes)
                 .GenerateMetadata()
                 .GenerateString();
 

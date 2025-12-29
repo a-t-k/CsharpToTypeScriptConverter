@@ -5,5 +5,7 @@ namespace TypeScriptRequestCommandsGenerator.Models
         public string Path { get; set; }
         public string Content { get; set; }
         public BuildFiLeType BuildFiLeType { get; set; }
+
+        public override string ToString() => $"{this.BuildFiLeType}-{this.Path}";
     }
 }

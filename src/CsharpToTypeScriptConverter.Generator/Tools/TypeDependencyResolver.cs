@@ -62,7 +62,14 @@ namespace TypeScriptRequestCommandsGenerator.Tools
 
             if (includeSelf)
             {
-                dependencies.Add((type, this.GetTypeKind(type)));
+                if (type.IsGenericType)
+                {
+                    dependencies.Add((type.GetGenericTypeDefinition(), this.GetTypeKind(type)));
+                }
+                else
+                {
+                    dependencies.Add((type, this.GetTypeKind(type)));
+                }
             }
 
             if (type.IsClass || type.IsInterface)
@@ -167,6 +174,26 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             Interface,
             Enum,
             ValueType
+        }
+
+        public Dictionary<string, Type> GetAllDependencies(params Type[] types)
+        {
+            var allDependencies = new Dictionary<string, Type>();
+            var typesToProcess = new Queue<Type>(types);
+            while (typesToProcess.Count > 0)
+            {
+                var currentType = typesToProcess.Dequeue();
+                var dependencies = this.GetDependencies(currentType);
+                foreach (var (type, _) in dependencies)
+                {
+                    if (allDependencies.TryAdd(type.Name, type))
+                    {
+                        typesToProcess.Enqueue(type);
+                    }
+                }
+            }
+
+            return allDependencies;
         }
     }
 

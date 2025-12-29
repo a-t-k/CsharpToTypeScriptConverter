@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
 using TypeScriptRequestCommandsGenerator.Tools;
 
@@ -8,24 +9,19 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 {
     public class SeparatedFilesGenerator
     {
-        private readonly Dictionary<string, Type> usedTypes = new();
-        private readonly List<Type> typesToGenerate = [];
+        private readonly List<Type> commandTypesToGenerate = [];
+        private readonly List<Type> extraTypesToGenerate = [];
         private readonly TypeFileGenerator typeFileGenerator;
 
         private Type interfaceFilterType;
         private Type returnTypeOfCommands;
 
-        public SeparatedFilesGenerator()
-        {
-            this.typeFileGenerator = new TypeFileGenerator();
-        }
+        public SeparatedFilesGenerator() => this.typeFileGenerator = new TypeFileGenerator();
 
         /// <summary>
         /// Set interface name for commands in a target language.
-        /// Alle generated commands will implement it.
+        /// After setting this name, all generated commands uses this interface name.
         /// </summary>
-        /// <param name="requestCommandInterfaceName"></param>
-        /// <returns></returns>
         public SeparatedFilesGenerator SetRequestCommandInterfaceNameForGeneratedCommands(
             string requestCommandInterfaceName)
         {
@@ -38,47 +34,65 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
         /// When interface filter is set. All types will be filtered by interface filter
         /// to get only this types with this interface for generation.
         /// </summary>
-        /// <param name="interfaceFilterType"></param>
-        /// <returns></returns>
-        public SeparatedFilesGenerator SetInterfaceFilter(Type interfaceFilterType)
+        public SeparatedFilesGenerator SetInterfaceFilter(Type interfaceFilterTypeParameter)
         {
-            this.interfaceFilterType = interfaceFilterType;
+            this.interfaceFilterType = interfaceFilterTypeParameter;
             return this;
         }
 
         /// <summary>
         /// Command has a return type, so it will be set here.
         /// </summary>
-        /// <param name="returnTypeOfCommands"></param>
-        /// <returns></returns>
-        public SeparatedFilesGenerator SetReturnTypeOfCommands(Type returnTypeOfCommands)
+        public SeparatedFilesGenerator SetReturnTypeOfCommands(Type returnTypeOfCommandsParameter)
         {
-            this.returnTypeOfCommands = returnTypeOfCommands;
+            this.returnTypeOfCommands = returnTypeOfCommandsParameter;
             return this;
         }
 
         /// <summary>
-        /// Add Types to collection that will be generated.
+        /// Add command types to collection that will be generated.
         /// </summary>
-        /// <param name="typesToGenerate"></param>
-        /// <returns></returns>
-        public SeparatedFilesGenerator AddRangeOfTypesToGenerate(IEnumerable<Type> typesToGenerate)
+        public SeparatedFilesGenerator AddRangeOfCommandTypesToGenerate(
+            IEnumerable<Type> commandTypesToGenerateParameter)
         {
-            this.typesToGenerate.AddRange(typesToGenerate);
+            this.commandTypesToGenerate.AddRange(commandTypesToGenerateParameter);
             return this;
         }
 
+        /// <summary>
+        /// Add extra types to collection that will be generated.
+        /// </summary>
+        public SeparatedFilesGenerator AddRangeOfExtraTypesToGenerate(IEnumerable<Type> extraTypesToGenerateParameter)
+        {
+            this.extraTypesToGenerate.AddRange(extraTypesToGenerateParameter);
+            return this;
+        }
+
+        /// <summary>
+        /// Create metadata for all types that will be generated.
+        /// </summary>
         public SeparatedFilesGeneratorWithMetaData GenerateMetadata()
         {
-            var typesMetadata = MetadataHelper.GetGeneratorTypesMetadata(this.typesToGenerate, this.interfaceFilterType,
-                this.returnTypeOfCommands, this.usedTypes);
-            // types that generator not generated, because they are deeper in definition
-            var notGeneratedTypes = this.usedTypes.Where(ut => typesMetadata.ToArray().All(tm => tm.Name != ut.Key))
-                .ToDictionary();
-            var newMetaData = MetadataHelper.GetGeneratorTypesForUsedTypes(notGeneratedTypes);
+            var typesMetadata = new List<GeneratorType>();
+            var dependencyResolver = new TypeDependencyResolver([this.returnTypeOfCommands, this.interfaceFilterType]);
+            var allDependencies =
+                dependencyResolver.GetAllDependencies(this.commandTypesToGenerate.Concat(this.extraTypesToGenerate)
+                    .ToArray());
 
-            // generate it
-            typesMetadata.AddRange(newMetaData);
+            this.extraTypesToGenerate.AddRange(allDependencies.Select(x => x.Value));
+
+            // get metadata for commands
+            var generatedCommands = MetadataHelper.GetMetadataForCommands(this.commandTypesToGenerate,
+                this.interfaceFilterType,
+                this.returnTypeOfCommands,
+                CommandInterface.Settings.RequestCommandInterfaceName);
+
+            // get metadata for extra types
+            var extraTypesMetadata = MetadataHelper.GetGeneratorTypesMetadata(this.extraTypesToGenerate,
+                this.returnTypeOfCommands);
+
+            typesMetadata.AddRange(generatedCommands);
+            typesMetadata.AddRange(extraTypesMetadata);
 
             // distinct all generated types
             var distinctMetadata = typesMetadata.GroupBy(x => x.Type).Select(x => x.First()).ToArray();

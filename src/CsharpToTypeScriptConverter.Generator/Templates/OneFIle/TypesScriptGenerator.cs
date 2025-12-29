@@ -56,7 +56,7 @@ export interface ");
             this.Write("<T>{ _?: T}\r\n\r\n// all request commands as classes\r\n\r\n");
             
             #line 23 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\OneFIle\TypesScriptGenerator.tt"
- foreach(var @class in this.Classes) { 
+ foreach(var @class in this.CommandClasses) { 
             
             #line default
             #line hidden
@@ -302,7 +302,7 @@ foreach(var member in @enum.Members){
             this.Write("\r\n// Used types\r\n\r\n");
             
             #line 66 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\OneFIle\TypesScriptGenerator.tt"
- foreach(var @returnType in this.ReturnTypes) { 
+ foreach(var @returnType in this.Classes) { 
             
             #line default
             #line hidden

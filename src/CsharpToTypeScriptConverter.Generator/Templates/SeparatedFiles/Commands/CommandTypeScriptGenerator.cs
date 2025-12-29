@@ -85,18 +85,11 @@ foreach(var @documentation in @class.Documentation){
             this.Write(" implements ");
             
             #line 17 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@Settings.RequestCommandInterfaceName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(@class.GetImplementsInterfaceTypeNames));
             
             #line default
             #line hidden
-            this.Write("<");
-            
-            #line 17 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ReturnTypeName));
-            
-            #line default
-            #line hidden
-            this.Write("> {\r\n    private readonly $type? = \"");
+            this.Write(" {\r\n    private readonly $type? = \"");
             
             #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(@class.TypeNameForJsonDeserialization));
