@@ -14,12 +14,27 @@ namespace CsharpToTypeScriptConverter.Tests
             NotNull(meta);
             meta = ClassGeneratorType.Get(typeof(GetUsersRequestCommand), null);
             NotNull(meta);
+
+            // test that interface detection works
+            meta = ClassGeneratorType.Get(typeof(GenerateTestClassWithInterface), null);
+            NotNull(meta);
+            True(meta.ImplementsInterfaceTypeNames.Any());
         }
 
         private class GenerateTestClass
         {
             public int Id { get; set; }
             public string Name { get; set; }
+        }
+
+        private class GenerateTestClassWithInterface : IGenerateTestInterface
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        private interface IGenerateTestInterface
+        {
         }
     }
 }
