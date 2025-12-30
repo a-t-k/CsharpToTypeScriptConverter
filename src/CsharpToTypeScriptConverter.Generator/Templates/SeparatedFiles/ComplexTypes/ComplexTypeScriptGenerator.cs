@@ -79,25 +79,11 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTyp
             this.Write(" ");
             
             #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
- if(@type.ImplementsInterfaceTypeNames.Any()){ 
+            this.Write(this.ToStringHelper.ToStringWithCulture(@type.ImplementsInterfaceTypeNames.Any()? "implements " + @type.GetImplementsInterfaceTypeNames : string.Empty));
             
             #line default
             #line hidden
-            this.Write("extends ");
-            
-            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", @type.ImplementsInterfaceTypeNames[0])));
-            
-            #line default
-            #line hidden
-            
-            #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
- }
-
-            
-            #line default
-            #line hidden
-            this.Write("{\r\n");
+            this.Write("\r\n{\r\n");
             
             #line 17 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
   foreach(var member in @type.Members) { 

@@ -12,8 +12,8 @@
 <# } #>
 */
 <#}#>
-export interface <#= @type.Name #> <# if(@type.ImplementsInterfaceTypeNames.Any()){ #>extends <#= string.Join(",", @type.ImplementsInterfaceTypeNames[0])#><# }
-#>{
+export interface <#= @type.Name #> <#=@type.ImplementsInterfaceTypeNames.Any()? "implements " + @type.GetImplementsInterfaceTypeNames : string.Empty#>
+{
 <#  foreach(var member in @type.Members) { #>
 	    <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#><#= member.IsDeclaredAsGeneric? ":": ":" #> <#= member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false) #>;
 <#    } #>

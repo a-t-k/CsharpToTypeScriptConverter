@@ -83,9 +83,9 @@
             <DependentUpon>CommandTypeScriptGenerator.tt</DependentUpon>
         </Compile>
         <Compile Update="Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>ComplexTypeScriptGenerator.tt</DependentUpon>
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ComplexTypeScriptGenerator.tt</DependentUpon>
         </Compile>
         <Compile Update="Templates\SeparatedFiles\Enumerations\EnumTypeScriptGenerator.cs">
             <DesignTime>True</DesignTime>

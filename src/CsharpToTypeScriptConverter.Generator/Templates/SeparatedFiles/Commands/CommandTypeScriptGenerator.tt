@@ -13,7 +13,7 @@
 <#}#><#}#>
  * @returns {<#= @class.CommandReturnTypeName #>}
 */
-export class <#= @class.Name #> implements <#=@class.GetImplementsInterfaceTypeNames#> {
+export class <#= @class.Name #> <#=@class.ImplementsInterfaceTypeNames.Any()? "implements " + @class.GetImplementsInterfaceTypeNames : string.Empty#> {
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
     public _?: <#= @class.CommandReturnTypeName #>;
 <#    foreach(var member in @class.Members) { #>

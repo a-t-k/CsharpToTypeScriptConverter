@@ -82,10 +82,10 @@ foreach(var @documentation in @class.Documentation){
             
             #line default
             #line hidden
-            this.Write(" implements ");
+            this.Write(" ");
             
             #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@class.GetImplementsInterfaceTypeNames));
+            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ImplementsInterfaceTypeNames.Any()? "implements " + @class.GetImplementsInterfaceTypeNames : string.Empty));
             
             #line default
             #line hidden
