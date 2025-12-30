@@ -57,10 +57,6 @@
             <LastGenOutput>EnumTypeScriptGenerator.cs</LastGenOutput>
             <Generator>TextTemplatingFilePreprocessor</Generator>
         </None>
-        <None Update="Templates\OneFIle\TypesScriptGenerator.tt">
-            <Generator>TextTemplatingFilePreprocessor</Generator>
-            <LastGenOutput>TypesScriptGenerator.cs</LastGenOutput>
-        </None>
     </ItemGroup>
     <ItemGroup>
         <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
@@ -91,11 +87,6 @@
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>EnumTypeScriptGenerator.tt</DependentUpon>
-        </Compile>
-        <Compile Update="Templates\OneFIle\TypesScriptGenerator.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>TypesScriptGenerator.tt</DependentUpon>
         </Compile>
         <Compile Update="Templates\SeparatedFiles\TypeScriptImports\TypeScriptImports.cs">
             <DesignTime>True</DesignTime>

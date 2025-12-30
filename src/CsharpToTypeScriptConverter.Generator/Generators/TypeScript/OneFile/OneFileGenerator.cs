@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Templates.OneFIle;
+using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
 using TypeScriptRequestCommandsGenerator.Tools;
 
 namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
@@ -23,7 +23,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
         /// <returns></returns>
         public OneFileGenerator SetRequestCommandInterfaceNameForGeneratedCommands(string requestCommandInterfaceName)
         {
-            TypesScriptGenerator.Settings.RequestCommandInterfaceName = requestCommandInterfaceName;
+            CommandInterface.Settings.RequestCommandInterfaceName = requestCommandInterfaceName?.Trim();
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
             var generatedCommands = MetadataHelper.GetMetadataForCommands(this.commandTypesToGenerate,
                 this.interfaceFilterType,
                 this.returnTypeOfCommands,
-                TypesScriptGenerator.Settings.RequestCommandInterfaceName);
+                CommandInterface.Settings.RequestCommandInterfaceName);
 
             // get metadata for all another types
             var extraTypesMetadata = MetadataHelper.GetGeneratorTypesMetadata(this.extraTypesToGenerate,
