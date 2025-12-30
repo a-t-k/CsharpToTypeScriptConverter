@@ -71,7 +71,7 @@ foreach(var @documentation in @class.Documentation){
             this.Write(" * @returns {");
             
             #line 14 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ReturnTypeName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(@class.CommandReturnTypeName));
             
             #line default
             #line hidden
@@ -99,7 +99,7 @@ foreach(var @documentation in @class.Documentation){
             this.Write("\";\r\n    public _?: ");
             
             #line 18 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ReturnTypeName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(@class.CommandReturnTypeName));
             
             #line default
             #line hidden

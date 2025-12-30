@@ -11,11 +11,11 @@
 <#foreach(var @documentation in @class.Documentation){#>
  * <#=@documentation#>
 <#}#><#}#>
- * @returns {<#= @class.ReturnTypeName #>}
+ * @returns {<#= @class.CommandReturnTypeName #>}
 */
 export class <#= @class.Name #> implements <#=@class.GetImplementsInterfaceTypeNames#> {
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
-    public _?: <#= @class.ReturnTypeName #>;
+    public _?: <#= @class.CommandReturnTypeName #>;
 <#    foreach(var member in @class.Members) { #>
     public <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#>?<#= member.IsDeclaredAsGeneric? ":": ":" #> <#= member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false) #>;
 <#    } #>

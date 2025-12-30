@@ -149,6 +149,8 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                 if (type.IsGenericType && !type.IsGenericTypeDefinition)
                 {
                     this.ResolveGenericsFromType(type.GetGenericArguments(), dependencies);
+                    dependencies.Add((type.GetGenericTypeDefinition(), this.GetTypeKind(type)));
+                    continue;
                 }
 
                 dependencies.Add((type, this.GetTypeKind(type)));

@@ -67,7 +67,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                     return $"{genericTypeDefinitionName}<{genericChainName}>";
                 }
 
-                // IEnumerable<T>
+                // IEnumerable<User>
                 if (type.IsIEnumerableOfT())
                 {
                     type = type.GetGenericArguments()[0];

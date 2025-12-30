@@ -10,15 +10,16 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
     {
         public static GeneratorType Get(Type type, Type returnTypeFilter)
         {
+            string name = TypeNameResolver.Resolve(type);
             var generatorType = new GeneratorType
             {
-                Name = type.Name,
+                Name = name,
                 Type = type,
                 Kind = GeneratorTypeKind.Class,
                 ImplementsInterfaceTypeNames = GetInterfaceNames(type),
                 Members = GetMember(type),
                 TypeNameForJsonDeserialization = GetTypeForJsonDeserialization(type),
-                ReturnTypeName = TypeNameResolver.Resolve(type),
+                ReturnTypeName = name,
                 Documentation = type.GetDocumentation()?.OnlyDocumentationText()
             };
             return generatorType;
@@ -27,16 +28,17 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
         public static GeneratorType GetCommand(Type type, Type implementOnlyThisInterfaceWhenExists = null,
             string replaceInterfaceNameWithThisOne = null)
         {
+            string name = TypeNameResolver.Resolve(type);
             var generatorType = new GeneratorType
             {
-                Name = type.Name,
+                Name = name,
                 Type = type,
                 Kind = GeneratorTypeKind.CommandClass,
                 ImplementsInterfaceTypeNames =
                     GetInterfaceNames(type, implementOnlyThisInterfaceWhenExists, replaceInterfaceNameWithThisOne),
                 Members = GetMember(type),
                 TypeNameForJsonDeserialization = GetTypeForJsonDeserialization(type),
-                ReturnTypeName = TypeNameResolver.Resolve(type),
+                ReturnTypeName = name,
                 Documentation = type.GetDocumentation()?.OnlyDocumentationText()
             };
 
