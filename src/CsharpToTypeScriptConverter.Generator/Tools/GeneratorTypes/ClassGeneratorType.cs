@@ -99,7 +99,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
         }
 
         private static List<GeneratorMember> GetMember(Type type) =>
-            type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Select(p =>
                 {
                     bool isDeclaredAsGeneric = p.DeclaringType is not null && p.DeclaringType.IsGenericType &&

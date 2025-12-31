@@ -12,7 +12,7 @@ namespace CsharpToTypeScriptConverter.Tests
             NotNull(meta);
             True(meta.BaseTypeName == "MyBaseClass<MyGenericType>");
             True(meta.Name == "MyDerivedTestClass");
-            True(meta.Members.Count() == 3);
+            True(meta.Members.Count() == 2);
 
             meta = ClassGeneratorType.Get(typeof(MyBaseClass<>), null);
             NotNull(meta);
