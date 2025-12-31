@@ -215,6 +215,6 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         public bool ResolveProperties { get; set; } = true;
         public bool ResolveMethods { get; set; } = false;
         public bool ResolveInterfaces { get; set; } = true;
-        public bool ResolveInherits { get; set; } = false;
+        public bool ResolveInherits { get; set; } = true;
     }
 }

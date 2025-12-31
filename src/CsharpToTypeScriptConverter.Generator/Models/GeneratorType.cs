@@ -37,9 +37,11 @@ namespace TypeScriptRequestCommandsGenerator.Models
         public string GetImplementsInterfaceTypeNames =>
             this.ImplementsInterfaceTypeNames.Aggregate((i1, i2) => $"{i1}, {i2}");
 
+        public string BaseTypeName { get; set; }
+
         public string[] Documentation { get; set; }
         public string GeneratedCode { get; set; }
         public Type Type { get; set; }
-        public override string ToString() => $"{this.Kind}-{this.Name}-{this.ReturnTypeName}";
+        public override string ToString() => $"{this.Kind}-{this.Name}";
     }
 }

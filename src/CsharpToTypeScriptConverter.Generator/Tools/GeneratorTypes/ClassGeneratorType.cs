@@ -17,6 +17,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
                 Type = type,
                 Kind = GeneratorTypeKind.Class,
                 ImplementsInterfaceTypeNames = GetInterfaceNames(type),
+                BaseTypeName = GetBaseName(type),
                 Members = GetMember(type),
                 TypeNameForJsonDeserialization = GetTypeForJsonDeserialization(type),
                 ReturnTypeName = name,
@@ -36,6 +37,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
                 Kind = GeneratorTypeKind.CommandClass,
                 ImplementsInterfaceTypeNames =
                     GetInterfaceNames(type, implementOnlyThisInterfaceWhenExists, replaceInterfaceNameWithThisOne),
+                BaseTypeName = GetBaseName(type),
                 Members = GetMember(type),
                 TypeNameForJsonDeserialization = GetTypeForJsonDeserialization(type),
                 ReturnTypeName = name,
@@ -82,6 +84,18 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
                 string genericInterfaceName = $"{interfacePrefixName}<{genericNameResult}>";
                 return genericInterfaceName;
             }).ToArray();
+        }
+
+        private static string GetBaseName(Type type)
+        {
+            string baseName = string.Empty;
+            var baseType = type.BaseType;
+            if (baseType != null && baseType != typeof(object))
+            {
+                baseName = TypeNameResolver.Resolve(baseType);
+            }
+
+            return baseName;
         }
 
         private static List<GeneratorMember> GetMember(Type type) =>

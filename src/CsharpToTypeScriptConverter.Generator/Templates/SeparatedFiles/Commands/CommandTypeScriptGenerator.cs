@@ -85,7 +85,13 @@ foreach(var @documentation in @class.Documentation){
             this.Write(" ");
             
             #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ImplementsInterfaceTypeNames.Any()? "implements " + @class.GetImplementsInterfaceTypeNames : string.Empty));
+            this.Write(this.ToStringHelper.ToStringWithCulture(!string.IsNullOrWhiteSpace(@class.BaseTypeName)? "extends " + @class.BaseTypeName + " " : string.Empty));
+            
+            #line default
+            #line hidden
+            
+            #line 16 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(@class.ImplementsInterfaceTypeNames.Any()? "implements " + @class.GetImplementsInterfaceTypeNames: string.Empty));
             
             #line default
             #line hidden
