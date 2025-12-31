@@ -1,11 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeScriptRequestCommandsGenerator", "src\CsharpToTypeScriptConverter.Generator\TypeScriptRequestCommandsGenerator.csproj", "{15330D11-9BBF-4D97-88E5-322B9F8E315A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsharpToTypeScriptConverter.Tests", "src\CsharpToTypeScriptConverter.Tests\CsharpToTypeScriptConverter.Tests.csproj", "{FB4D514E-9A9F-47BC-811F-4BEAE269089E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionFiles", ".SolutionFiles", "{15E16963-25DC-4283-A9D9-C55596CA6411}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		ARCHITECTURE.md = ARCHITECTURE.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		DOCUMENTATION.md = DOCUMENTATION.md
+		DOCUMENTATION_DELIVERY.md = DOCUMENTATION_DELIVERY.md
+		DOCUMENTATION_INDEX.md = DOCUMENTATION_INDEX.md
+		DOCUMENTATION_SUMMARY.md = DOCUMENTATION_SUMMARY.md
+		LICENSE = LICENSE
+		QUICK_REFERENCE.md = QUICK_REFERENCE.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

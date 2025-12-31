@@ -1,4 +1,3 @@
-this file is generated with copilot
 
 # CsharpToTypeScriptConverter - Solution Documentation
 
@@ -8,9 +7,13 @@ this file is generated with copilot
 3. [Project Structure](#project-structure)
 4. [Core Components](#core-components)
 5. [Key Models](#key-models)
-6. [Generation Modes](#generation-modes)
-7. [Usage Guide](#usage-guide)
-8. [Development Guide](#development-guide)
+6. [Type Name Resolution](#type-name-resolution)
+7. [Type Generation Strategies](#type-generation-strategies)
+8. [Type Dependencies](#type-dependencies)
+9. [Generation Modes](#generation-modes)
+10. [Usage Guide](#usage-guide)
+11. [Development Guide](#development-guide)
+12. [Testing](#testing)
 
 ---
 
@@ -19,17 +22,19 @@ this file is generated with copilot
 **CsharpToTypeScriptConverter** is a .NET 9.0 code generation library that automatically converts C# types (classes, interfaces, enums) to equivalent TypeScript code. This tool enables seamless synchronization of type definitions between a C# backend API and a TypeScript frontend client.
 
 ### Key Features
-- Converts C# classes, interfaces, and enums to TypeScript
-- Supports generic types and nested generics
-- Generates either a single file or multiple separated files
-- Preserves XML documentation from C# code
+- Converts C# classes, interfaces, and enums to TypeScript with full type information
+- Supports complex generic types including nested generics and arrays
+- Handles class inheritance and interface implementation
+- Generates either a single file or multiple organized separated files
+- Preserves XML documentation from C# code as JSDoc comments
 - Supports command patterns with `ICommand<T>` and `IRequestCommand` interfaces
 - Generates type metadata for JSON deserialization
+- Intelligent type name resolution for generics and type parameters
 - Framework: .NET 9.0
 - Package Version: 0.9.1
 
 ### Use Case
-This library is designed for communication between an ASP.NET API and a TypeScript client using a command-based architecture. It ensures type safety and consistency across language boundaries while maintaining domain language clarity.
+This library is designed for communication between an ASP.NET API and a TypeScript client using a command-based architecture. It ensures type safety and consistency across language boundaries while maintaining domain language clarity. The library automatically tracks type dependencies and generates proper imports for modular TypeScript code.
 
 ---
 
@@ -49,14 +54,35 @@ CsharpToTypeScriptConverter
             ├── SeparatedFilesGeneratorWithRenderedTypes
             ├── BuildedSeparatedFiles
             └── Templates/SeparatedFiles/*
+                ├── Commands/
+                ├── ComplexTypes/
+                ├── Enumerations/
+                ├── Interfaces/
+                └── Imports/
+
+    TypeNameResolver (Type Analysis)
+        └── Handles generics, arrays, nullable types
+    
+    MetadataHelper (Metadata Extraction)
+        └── Orchestrates GeneratorTypes strategies
+        
+    GeneratorTypes (Type-Specific Generation)
+        ├── ClassGeneratorType
+        ├── EnumGeneratorType
+        └── InterfaceGeneratorType
+    
+    TypeDependencyResolver (Dependency Analysis)
+        └── Tracks type dependencies with configurable options
 ```
 
 ### Design Patterns Used
-1. **Builder Pattern**: Generator classes build the output step-by-step
-2. **Template Method Pattern**: T4 templates (`.tt` files) define code generation templates
-3. **Strategy Pattern**: Different generation strategies (OneFile vs SeparatedFiles)
-4. **Reflection**: Uses .NET Reflection to analyze C# types and extract metadata
-5. **Visitor Pattern**: Processes type hierarchies to collect and transform data
+1. **Strategy Pattern**: Separate generators for each type kind (Class, Enum, Interface)
+2. **Static Factory Pattern**: `ClassGeneratorType.Get()`, `EnumGeneratorType.Get()` for type metadata creation
+3. **Builder Pattern**: Generator classes build output step-by-step
+4. **Template Method Pattern**: T4 templates (`.tt` files) define code generation templates
+5. **Facade Pattern**: `MetadataHelper` orchestrates type generation strategies
+6. **Reflection**: Uses .NET Reflection to analyze C# types and extract metadata
+7. **Visitor-like Pattern**: `TypeDependencyResolver` traverses type hierarchies
 
 ---
 
@@ -101,16 +127,26 @@ D:\GIT\CsharpToTypeScriptConverter\
 │   │   │   ├── DocumentationTools.cs
 │   │   │   ├── MetadataHelper.cs
 │   │   │   ├── TypeDependencyResolver.cs
-│   │   │   └── TypeFileGenerator.cs
+│   │   │   ├── TypeDependencyResolverOptions.cs
+│   │   │   ├── TypeFileGenerator.cs
+│   │   │   ├── TypeNameResolver.cs
+│   │   │   └── GeneratorTypes\
+│   │   │       ├── ClassGeneratorType.cs
+│   │   │       ├── EnumGeneratorType.cs
+│   │   │       └── InterfaceGeneratorType.cs
 │   │   └── TypeScriptRequestCommandsGenerator.csproj
 │   │
 │   └── CsharpToTypeScriptConverter.Tests\
+│       ├── ClassGeneratorTypeTests.cs
+│       ├── InheritanceTests.cs
+│       ├── TypeNameResolverTests.cs
 │       ├── OneFileGeneratorTests.cs
 │       ├── SeparatedFilesGeneratorTests.cs
 │       ├── TestDefinitionsData.cs
 │       └── CsharpToTypeScriptConverter.Tests.csproj
 │
 ├── README.md
+├── SOLUTION_DOCUMENTATION.md
 ├── LICENSE
 └── (Other solution files)
 ```
@@ -118,7 +154,7 @@ D:\GIT\CsharpToTypeScriptConverter\
 ### Directory Structure Details
 
 **Generators/**
-- Contains all code generation logic organized by output strategy
+- Contains all code generation logic organized by output strategy (OneFile vs SeparatedFiles)
 
 **Templates/**
 - T4 text templates (`.tt` files) that define TypeScript code generation templates
@@ -127,17 +163,21 @@ D:\GIT\CsharpToTypeScriptConverter\
 
 **Models/**
 - Data transfer objects representing C# and TypeScript metadata
-- Used internally by generators to transform type information
+- `GeneratorType`: Core metadata for any C# type (class, enum, interface)
+- `GeneratorTypeKind`: Enum distinguishing type categories
+- `GeneratorMember`: Represents properties/fields with type information
 
 **Tools/**
 - Utility classes for reflection, documentation parsing, and type resolution
+- `TypeNameResolver`: Converts C# types to TypeScript type names (handles generics, arrays, primitives)
 - `DocumentationTools`: Extracts XML documentation from .NET assemblies
-- `MetadataHelper`: Converts C# types to GeneratorType metadata
-- `TypeDependencyResolver`: Resolves type dependencies for import generation
+- `MetadataHelper`: Orchestrates type metadata extraction using GeneratorTypes strategies
+- `TypeDependencyResolver`: Analyzes type dependencies with configurable resolution options
 - `TypeFileGenerator`: Creates individual TypeScript files
+- **GeneratorTypes/** folder: Strategy implementations for extracting metadata from different type kinds
 
 **Tests/**
-- Unit tests validating generator output for both strategies
+- Unit tests validating type generation, inheritance, generics, and resolver functionality
 
 ---
 
@@ -159,12 +199,6 @@ public class Generator
 
 **Purpose**: Main entry point for the library. Provides fluent API access to TypeScript generation capabilities.
 
-**Usage**:
-```csharp
-var generator = new Generator();
-var tsGenerator = generator.TypeScript();
-```
-
 ### 2. TypeScriptGenerator
 
 **File**: `Generators/TypeScript/TypeScriptGenerator.cs`
@@ -175,7 +209,151 @@ var tsGenerator = generator.TypeScript();
 - `OneFile()`: Returns `OneFileGenerator` for single-file output
 - `SeparatedFiles()`: Returns `SeparatedFilesGenerator` for multi-file output
 
-### 3. OneFileGenerator
+### 3. TypeNameResolver
+
+**File**: `Tools/TypeNameResolver.cs`
+
+**Purpose**: Resolves C# types to their TypeScript type name equivalents
+
+**Key Features**:
+- Converts primitive types: `int` → `number`, `string` → `string`, `bool` → `boolean`
+- Handles nullables: `int?` → `number`
+- Resolves generic types: `IEnumerable<User>` → `User[]`
+- Supports nested generics: `Dictionary<string, List<User>>` → `Dictionary<string, User[]>`
+- Generates generic type definitions: `MyClass<T>` → `MyClass<T>`
+- Handles arrays: `User[]` → `User[]`
+
+**Key Methods**:
+- `Resolve(Type, bool, string?)`: Main method that converts C# type to TypeScript name
+- `IsIEnumerableOfT(Type)`: Detects if type is `IEnumerable<T>`
+
+**Type Mappings**:
+```csharp
+Number types (int, double, etc.) → "number"
+String types (string, char, Guid, DateTime) → "string"
+bool → "boolean"
+object → "any"
+Nullable<T> → T (unwrapped)
+IEnumerable<T> → T[] (converted to array)
+Generic types → Preserve generic structure
+```
+
+### 4. MetadataHelper
+
+**File**: `Tools/MetadataHelper.cs`
+
+**Purpose**: Orchestrates type metadata extraction for multiple types
+
+**Key Methods**:
+- `GetGeneratorTypesMetadata(types, returnTypeFilter)`: Extracts metadata for classes, enums, and interfaces
+- `GetMetadataForCommands(types, interfaceFilter, commandInterface, replacementName)`: Extracts command-specific metadata with interface customization
+
+**Workflow**:
+1. Filters types (excludes abstract, filters by interfaces)
+2. Delegates to appropriate `GeneratorType` strategy (Class, Enum, Interface)
+3. Returns list of fully populated `GeneratorType` objects
+
+### 5. GeneratorType Strategies
+
+**Location**: `Tools/GeneratorTypes/`
+
+#### ClassGeneratorType
+**File**: `Tools/GeneratorTypes/ClassGeneratorType.cs`
+
+**Purpose**: Extracts metadata from C# class types
+
+**Key Methods**:
+- `Get(Type, returnTypeFilter)`: Standard class metadata
+- `GetCommand(Type, interfaceFilter?, replacementInterfaceName?)`: Command class metadata
+
+**Metadata Extracted**:
+- Name (resolved via `TypeNameResolver`)
+- Base type name (inheritance support)
+- Interface implementations
+- Properties (only declared on this type, not inherited)
+- JSON deserialization type
+- XML documentation
+
+#### EnumGeneratorType
+**File**: `Tools/GeneratorTypes/EnumGeneratorType.cs`
+
+**Purpose**: Extracts metadata from C# enum types
+
+**Key Methods**:
+- `Get(Type)`: Enum metadata extraction
+
+**Metadata Extracted**:
+- Enum name
+- Enum members with their values
+- XML documentation
+
+#### InterfaceGeneratorType
+**File**: `Tools/GeneratorTypes/InterfaceGeneratorType.cs`
+
+**Purpose**: Extracts metadata from C# interface types
+
+**Key Methods**:
+- `Get(Type, returnTypeFilter)`: Interface metadata extraction
+
+**Implementation**: Reuses `ClassGeneratorType` logic but sets `Kind = GeneratorTypeKind.Interface`
+
+### 6. TypeDependencyResolver
+
+**File**: `Tools/TypeDependencyResolver.cs`
+
+**Purpose**: Analyzes and resolves type dependencies for import generation
+
+**Key Features**:
+- Recursive dependency resolution
+- Configurable resolution options
+- Filters built-in .NET types automatically
+- Supports custom type ignoring
+
+**Configuration** (via `TypeDependencyResolverOptions`):
+- `ResolveProperties` (default: true): Resolve types from properties
+- `ResolveInterfaces` (default: true): Resolve implemented interfaces
+- `ResolveInherits` (default: true): Resolve base types
+- `ResolveFields` (default: false): Resolve types from fields
+- `ResolveMethods` (default: false): Resolve types from method signatures
+
+**Key Methods**:
+- `GetDependencies(Type, bool)`: Returns direct dependencies
+- `GetAllDependencies(params Type[])`: Returns all transitive dependencies
+
+**Type Classification**:
+```csharp
+public enum TypeKind
+{
+    Unknown,
+    Class,
+    Interface,
+    Enum,
+    ValueType
+}
+```
+
+**Ignored Types**:
+- Primitive types: `bool`, `int`, `long`, `string`, `char`
+- Collection interfaces: `IList`, `IEnumerable`, `ICollection`, `IQueryable`
+- Generic collection interfaces: `IList<>`, `IEnumerable<>`, etc.
+
+### 7. Documentation Tools
+
+**File**: `Tools/DocumentationTools.cs`
+
+**Purpose**: Parses XML documentation from .NET assemblies and extracts developer-written documentation
+
+**Key Methods**:
+- `LoadXmlDocumentation(Assembly)`: Loads XML docs from assembly's `.xml` file
+- `LoadXmlDocumentation(string)`: Parses raw XML documentation content
+- `GetDocumentation(Type|PropertyInfo|ParameterInfo)`: Retrieves documentation for specific members
+- `OnlyDocumentationText(string)`: Extracts clean text from XML doc markup
+
+**Key Members**:
+- `LoadedXmlDocumentation`: Dictionary caching parsed XML docs by member key
+- `LoadedAssemblies`: HashSet tracking loaded assemblies (prevents reloading)
+
+### 8. OneFileGenerator
 
 **File**: `Generators/TypeScript/OneFile/OneFileGenerator.cs`
 
@@ -189,7 +367,7 @@ var tsGenerator = generator.TypeScript();
 **Related Classes**:
 - `OneFileGeneratorWithMetaData`: Extended version with metadata support
 
-### 4. SeparatedFilesGenerator
+### 9. SeparatedFilesGenerator
 
 **File**: `Generators/TypeScript/SeparatedFiles/SeparatedFilesGenerator.cs`
 
@@ -199,66 +377,12 @@ var tsGenerator = generator.TypeScript();
 - Organizes output by type category (commands, enums, complex types, interfaces)
 - Manages import dependencies between files
 - Generates warning comments in generated files
+- Creates barrel exports (index.ts files)
 
 **Related Classes**:
 - `SeparatedFilesGeneratorWithMetaData`: Metadata version
 - `SeparatedFilesGeneratorWithRenderedTypes`: Handles pre-rendered types
 - `BuildedSeparatedFiles`: Container for built file structure
-
-### 5. Documentation Tools
-
-**File**: `Tools/DocumentationTools.cs`
-
-**Purpose**: Parses XML documentation from .NET assemblies and extracts developer-written documentation
-
-**Key Members**:
-- `LoadedXmlDocumentation`: Dictionary storing parsed XML docs by member key
-- `LoadedAssemblies`: Set of assemblies with loaded documentation
-- `LoadXmlDocumentation(Assembly)`: Loads XML docs from assembly
-- `GetDocumentation(Type|PropertyInfo|ParameterInfo)`: Retrieves documentation for specific members
-- `OnlyDocumentationText()`: Extracts clean text from XML doc markup
-
-**Key Methods**:
-- `GetDocumentation(this MemberInfo)`: Route to appropriate documentation getter based on member type
-- `XmlDocumentationKeyHelper()`: Formats XML documentation keys for lookup
-- `LoadXmlDocumentation(string)`: Parses raw XML documentation content
-
-### 6. MetadataHelper
-
-**File**: `Tools/MetadataHelper.cs`
-
-**Purpose**: Converts C# reflection data to GeneratorType metadata used by templates
-
-**Key Responsibilities**:
-- Extract type information from C# types
-- Identify command types and return types
-- Resolve generic type parameters
-- Build member metadata for properties and fields
-- Track used types for dependency resolution
-
-### 7. TypeDependencyResolver
-
-**File**: `Tools/TypeDependencyResolver.cs`
-
-**Purpose**: Analyzes type dependencies and generates import statements for TypeScript
-
-**Key Responsibilities**:
-- Track which types depend on other types
-- Generate proper import paths between files
-- Handle circular dependency detection
-- Resolve type names to file locations
-
-### 8. TypeFileGenerator
-
-**File**: `Tools/TypeFileGenerator.cs`
-
-**Purpose**: Creates individual TypeScript files with proper content
-
-**Key Responsibilities**:
-- Apply templates to generate file content
-- Handle file naming conventions
-- Manage file system operations
-- Organize files into directory structure
 
 ---
 
@@ -273,17 +397,25 @@ Represents a C# type converted to TypeScript metadata.
 ```csharp
 public class GeneratorType
 {
-    public string Name { get; set; }                                    // TypeScript type name
-    public string TypeNameForJsonDeserialization { get; set; }          // Type reference for JSON
-    public string ReturnTypeName { get; set; }                          // For commands: return type
-    public GeneratorTypeKind Kind { get; set; }                         // Class, Enum, Interface, etc.
-    public IEnumerable<GeneratorMember> Members { get; set; }           // Properties/fields
-    public string[] ImplementsInterfaceTypeNames { get; set; }          // Implemented interfaces
-    public string[] Documentation { get; set; }                         // XML docs converted to text
-    public string GeneratedCode { get; set; }                           // Generated TypeScript code
-    public Type Type { get; set; }                                      // Original C# type
+    public string Name { get; set; }                              // TypeScript type name
+    public string TypeNameForJsonDeserialization { get; set; }    // Type reference for JSON
+    public string ReturnTypeName { get; set; }                    // For commands: return type
+    public GeneratorTypeKind Kind { get; set; }                   // Class, Enum, Interface, CommandClass
+    public IEnumerable<GeneratorMember> Members { get; set; }     // Properties/fields with types
+    public string[] ImplementsInterfaceTypeNames { get; set; }    // Implemented interfaces
+    public string BaseTypeName { get; set; }                      // Base class name (inheritance)
+    public string[] Documentation { get; set; }                   // XML docs as text array
+    public string GeneratedCode { get; set; }                     // Generated TypeScript code
+    public Type Type { get; set; }                                // Original C# type
+    
+    // Computed property
+    public string CommandReturnTypeName { get; }                  // Extracts return type from ICommand<T>
 }
 ```
+
+**New Properties** (Recent Additions):
+- `BaseTypeName`: Supports class inheritance in TypeScript output
+- `CommandReturnTypeName`: Regex-based extraction of generic type from `ICommand<T>`
 
 ### GeneratorMember
 
@@ -293,9 +425,9 @@ Represents a member (property/field) of a type.
 
 **Properties**:
 - `Name`: Member name
-- `TypeName`: TypeScript type name
-- `Kind`: Member kind (property, field, etc.)
-- `IsOptional`: Whether member is nullable/optional
+- `Type`: C# Type reference
+- `GenericName`: TypeScript-resolved type name
+- `IsDeclaredAsGeneric`: Whether member is a generic parameter
 - `Documentation`: XML documentation
 
 ### GeneratorTypeKind
@@ -303,10 +435,15 @@ Represents a member (property/field) of a type.
 **File**: `Models/GeneratorTypeKind.cs`
 
 Enum distinguishing different type categories:
-- `Class`: Regular C# class
-- `Enum`: Enumeration
-- `Interface`: Interface definition
-- `CommandWithGenericReturnType`: Command with `ICommand<T>`
+```csharp
+public enum GeneratorTypeKind
+{
+    Interface,
+    Enum,
+    Class,
+    CommandClass  // Class implementing ICommand<T>
+}
+```
 
 ### BuildFile
 
@@ -320,23 +457,164 @@ Represents a generated TypeScript file ready for output.
 - `FileContent`: Generated TypeScript code
 - `FilePath`: Full path where file should be written
 
-### FileMetadata
-
-**File**: `Models/FileMetadata.cs`
-
-Metadata about a TypeScript file for tracking and organization.
-
 ### TypeScriptImportDependency
 
 **File**: `Models/TypeScriptImportDependency.cs`
 
 Represents an import statement needed between TypeScript files.
 
-**Properties**:
-- Source type
-- Target type
-- Import path
-- Import statements to generate
+---
+
+## Type Name Resolution
+
+The `TypeNameResolver` is the heart of accurate type conversion. It handles complex scenarios:
+
+### Example Resolutions
+
+```csharp
+// Primitives
+typeof(int)                          → "number"
+typeof(string)                       → "string"
+typeof(bool)                         → "boolean"
+
+// Generics
+typeof(IEnumerable<User>)           → "User[]"
+typeof(Dictionary<string, int>)     → "Dictionary<string, number>"
+typeof(MyClass<T1, T2>)             → "MyClass<T1, T2>"
+
+// Nested Generics
+typeof(List<List<User>>)            → "List<User[]>[]"
+typeof(Dictionary<string, List<User>>) → "Dictionary<string, User[]>"
+
+// Arrays
+typeof(int[])                       → "number[]"
+typeof(User[])                      → "User[]"
+typeof(List<User>[])                → "List<User>[]"
+
+// Nullables
+typeof(int?)                        → "number"
+typeof(string?)                     → "string"
+
+// Generic Type Definitions
+typeof(MyClass<>)                   → "MyClass<T>"
+typeof(MyClass<,>)                  → "MyClass<T1, T2>"
+```
+
+---
+
+## Type Generation Strategies
+
+### Class Generation
+
+**Input**: A C# class with properties and base type
+
+```csharp
+public class User : BasePerson
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+```
+
+**Metadata Extraction**:
+1. Resolve class name via `TypeNameResolver`
+2. Extract base type using `TypeNameResolver`
+3. Collect interface implementations
+4. Extract declared properties only (not inherited)
+5. Resolve each property type via `TypeNameResolver`
+6. Load XML documentation via `DocumentationTools`
+
+**Output**:
+```typescript
+export class User extends BasePerson {
+    public id?: number;
+    public name?: string;
+}
+```
+
+### Enum Generation
+
+**Input**: A C# enum
+
+```csharp
+public enum Status
+{
+    Active = 0,
+    Inactive = 1
+}
+```
+
+**Metadata Extraction**:
+1. Resolve enum name
+2. Extract enum members (exclude `value__` synthetic field)
+3. Load XML documentation
+
+**Output**:
+```typescript
+export enum Status {
+    Active = 0,
+    Inactive = 1,
+}
+```
+
+### Interface Generation
+
+**Input**: A C# interface
+
+```csharp
+public interface ICommand<T>
+{
+    // members
+}
+```
+
+**Metadata Extraction**:
+1. Uses `ClassGeneratorType` logic
+2. Sets `Kind = GeneratorTypeKind.Interface`
+3. Extracts interface members
+
+---
+
+## Type Dependencies
+
+The `TypeDependencyResolver` enables intelligent import generation:
+
+### Dependency Resolution Example
+
+```csharp
+public class Order
+{
+    public List<OrderItem> Items { get; set; }  // Depends on OrderItem
+    public User Customer { get; set; }          // Depends on User
+    public OrderStatus Status { get; set; }     // Depends on OrderStatus (Enum)
+}
+```
+
+**Configuration**:
+```csharp
+var resolver = new TypeDependencyResolver(
+    ignoreTypes: new List<Type> { typeof(SomeFrameworkType) },
+    options: new TypeDependencyResolverOptions
+    {
+        ResolveProperties = true,
+        ResolveInterfaces = true,
+        ResolveInherits = true,
+        ResolveMethods = false
+    }
+);
+```
+
+**Result**:
+```csharp
+var deps = resolver.GetDependencies(typeof(Order));
+// Returns: [(OrderItem, Class), (User, Class), (OrderStatus, Enum)]
+```
+
+**Transitive Dependencies**:
+```csharp
+var allDeps = resolver.GetAllDependencies(typeof(Order));
+// Recursively gets dependencies of Order, OrderItem, User, OrderStatus, etc.
+```
 
 ---
 
@@ -350,22 +628,25 @@ Represents an import statement needed between TypeScript files.
 
 **Workflow**:
 1. Collect all C# types to convert
-2. Apply OneFileGenerator template to all types at once
-3. Include all imports at the top of the file
-4. Write single output file
+2. Extract metadata for each type
+3. Apply OneFileGenerator template to all types at once
+4. Include all imports at the top of the file
+5. Write single output file
 
 **Output Structure**:
 ```typescript
-// Single file with all interfaces, classes, and enums
+// Generated with all types in one file
 export interface ICommand<T> { _?: T }
-export class MyCommand implements ICommand<boolean> { ... }
-export enum MyEnum { ... }
+export class Order { items?: OrderItem[] }
+export class OrderItem { ... }
+export enum OrderStatus { ... }
 ```
 
 **Advantages**:
 - Simple structure
 - Minimal file management
 - Good for smaller projects
+- No import management needed
 
 ### Mode 2: Separated Files Generation
 
@@ -375,25 +656,28 @@ export enum MyEnum { ... }
 
 **Workflow**:
 1. Collect all C# types to convert
-2. Categorize types by kind (commands, enums, complex types, interfaces)
-3. Generate individual files for each type category or type
-4. Calculate import dependencies
-5. Generate import statements for each file
-6. Write individual files to organized directory structure
+2. Extract metadata for each type
+3. Categorize types by kind (commands, enums, complex types, interfaces)
+4. Calculate import dependencies using `TypeDependencyResolver`
+5. Generate individual files for each type category or type
+6. Generate import statements for each file
+7. Create barrel exports (index.ts) for each category
+8. Write individual files to organized directory structure
 
 **Output Structure**:
 ```
 output/
 ├── commands/
-│   ├── index.ts (barrel export)
-│   ├── myCommand.ts
-│   └── anotherCommand.ts
+│   ├── index.ts
+│   ├── createOrder.ts
+│   └── updateOrder.ts
 ├── enums/
 │   ├── index.ts
-│   └── myEnum.ts
-├── types/
+│   └── orderStatus.ts
+├── models/
 │   ├── index.ts
-│   └── complexType.ts
+│   ├── order.ts
+│   └── orderItem.ts
 ├── interfaces/
 │   ├── index.ts
 │   └── iCommand.ts
@@ -405,6 +689,7 @@ output/
 - Easier to maintain and navigate
 - Better for large projects
 - Barrel exports for cleaner imports
+- Automatic import management
 
 ---
 
@@ -427,17 +712,25 @@ public interface ICommand<T>;
 public interface IRequestCommand;
 
 // Example command
-public class ChangeUserRoleRequestCommand : IRequestCommand, ICommand<bool>
+public class CreateOrderCommand : IRequestCommand, ICommand<Order>
 {
-    public string UserId { get; set; }
-    public UserRoles NewRole { get; set; }
+    public int CustomerId { get; set; }
+    public List<OrderItem> Items { get; set; }
+}
+
+// Example model with inheritance
+public class Order
+{
+    public int Id { get; set; }
+    public List<OrderItem> Items { get; set; }
 }
 
 // Example enum
-public enum UserRoles
+public enum OrderStatus
 {
-    User,
-    Admin
+    Pending,
+    Confirmed,
+    Shipped
 }
 ```
 
@@ -448,35 +741,16 @@ using TypeScriptRequestCommandsGenerator;
 using TypeScriptRequestCommandsGenerator.Tools;
 
 // Get all exported types from assembly
-var exportedTypes = typeof(UserRoles).Assembly.ExportedTypes;
+var exportedTypes = typeof(OrderStatus).Assembly.ExportedTypes;
 
 // Define interfaces to search for
 var requestCommandType = typeof(IRequestCommand);
-var commandReturnType = typeof(ICommand<>);
-
-// Create settings
-var usedTypes = new Dictionary<string, Type>();
-TypesScriptGenerator.Settings.RequestCommandInterfaceName = "ICommand";
 
 // Get metadata for types
 var typesMetadata = MetadataHelper.GetGeneratorTypesMetadata(
     exportedTypes,
-    requestCommandType,
-    commandReturnType,
-    usedTypes
+    requestCommandType
 );
-
-// Handle types that weren't automatically included
-var notGeneratedTypes = usedTypes
-    .Where(ut => typesMetadata.All(tm => tm.Name != ut.Key))
-    .ToDictionary();
-
-if (notGeneratedTypes.Count > 0)
-{
-    typesMetadata.AddRange(
-        MetadataHelper.GetGeneratorTypesForUsedTypes(notGeneratedTypes)
-    );
-}
 
 // Generate TypeScript
 var generator = new Generator();
@@ -484,7 +758,7 @@ var oneFileGen = generator.TypeScript().OneFile();
 var transformedText = oneFileGen.Generate(typesMetadata.ToArray());
 
 // Write to file
-File.WriteAllText("./typeScriptTypes.ts", transformedText);
+File.WriteAllText("./models.ts", transformedText);
 ```
 
 #### 4. Generate TypeScript (Separated Files)
@@ -510,45 +784,77 @@ foreach (var file in builtFiles.BuildFiles)
 
 **Input C# Code**:
 ```csharp
-public class ChangeUserRoleRequestCommand : IRequestCommand, ICommand<bool>
+/// <summary>Order information</summary>
+public class Order
 {
-    /// <summary>User identifier to change role for</summary>
-    public string UserId { get; set; }
+    /// <summary>Order identifier</summary>
+    public int Id { get; set; }
     
-    /// <summary>New role to assign</summary>
-    public UserRoles NewRole { get; set; }
+    /// <summary>Order items list</summary>
+    public List<OrderItem> Items { get; set; }
 }
 
-public enum UserRoles { User = 0, Admin = 1 }
+public class OrderItem
+{
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+}
 
-public interface ICommand<T> { _?: T }
+public enum OrderStatus { Pending = 0, Shipped = 1 }
 ```
 
-**Output TypeScript**:
+**Output TypeScript** (from separated files):
+
+`models/order.ts`:
 ```typescript
+import { OrderItem } from './orderItem';
+
 /**
- * User identifier to change role for
+ * Order information
  */
-export class ChangeUserRoleRequestCommand implements ICommand<boolean> {
-    private readonly $type? = ".ChangeUserRole, CsharpToTypeScriptConverter.Tests";
-    public _?: boolean;
-    public userId?: string;
-    public newRole?: UserRoles;
+export class Order {
+    /**
+     * Order identifier
+     */
+    public id?: number;
+    
+    /**
+     * Order items list
+     */
+    public items?: OrderItem[];
 }
+```
 
-export enum UserRoles {
-    User = 0,
-    Admin = 1,
+`models/orderItem.ts`:
+```typescript
+export class OrderItem {
+    public productId?: number;
+    public quantity?: number;
 }
+```
 
-export interface ICommand<T> {
-    _?: T;
+`enums/orderStatus.ts`:
+```typescript
+export enum OrderStatus {
+    Pending = 0,
+    Shipped = 1,
 }
 ```
 
 ---
 
 ## Development Guide
+
+### Adding Support for New Type Kinds
+
+To support generating a new type category:
+
+1. **Create strategy class** (e.g., `Tools/GeneratorTypes/RecordGeneratorType.cs`)
+2. **Implement metadata extraction** using reflection
+3. **Update `MetadataHelper`** to use new strategy
+4. **Add `GeneratorTypeKind` enum value** if needed
+5. **Create template** (e.g., `Templates/SeparatedFiles/Records/RecordTypeScriptGenerator.tt`)
+6. **Add tests** validating metadata extraction and output
 
 ### Adding a New Template
 
@@ -566,41 +872,82 @@ T4 templates control code generation. To add support for a new type of output:
 4. **Create extension class** (e.g., `MyTypeGeneratorExt.cs`) for helper methods
 5. **Integrate into generator** by calling template from generator class
 
-### Extending MetadataHelper
+### Extending TypeNameResolver
 
-To customize type metadata extraction:
+To add custom type mappings:
 
-1. Add new static method to `MetadataHelper` class
-2. Implement reflection logic to extract desired metadata
-3. Return `GeneratorType[]` array with custom data
-4. Call from generator before template processing
+1. Add custom type to the appropriate HashSet (`numberTypes`, `stringTypes`, etc.)
+2. Or modify the resolution logic for special cases
+3. Add test cases to `TypeNameResolverTests`
 
-### Adding Documentation Support
+### Adding Custom Dependency Filtering
 
-To add documentation to generated TypeScript:
+To ignore specific types during dependency resolution:
 
-1. Ensure C# types have XML documentation (`/// <summary>...`)
-2. Use `DocumentationTools.LoadXmlDocumentation(assembly)` to load docs
-3. Extract docs via `DocumentationTools.GetDocumentation(memberInfo)`
-4. Pass documentation strings to template
-5. Template includes docs in generated code
+```csharp
+var resolver = new TypeDependencyResolver(
+    ignoreTypes: new List<Type> 
+    { 
+        typeof(SpecialFrameworkType),
+        typeof(AnotherTypeToIgnore)
+    }
+);
+```
 
 ### Testing Generated Output
 
 Use unit tests to validate generation:
 
 **Key Test Classes**:
+- `TypeNameResolverTests.cs`: Tests type name resolution (generics, arrays, primitives)
+- `ClassGeneratorTypeTests.cs`: Tests class metadata extraction
+- `InheritanceTests.cs`: Tests inheritance and generic base class handling
 - `OneFileGeneratorTests.cs`: Tests single-file generation
 - `SeparatedFilesGeneratorTests.cs`: Tests multi-file generation
-- `TestDefinitionsData.cs`: Test data and expected outputs
 
 **Testing Pattern**:
-1. Define test C# types
-2. Generate TypeScript
-3. Assert generated code matches expected output
-4. Verify imports and dependencies
+1. Define test C# types (classes, enums, interfaces)
+2. Call appropriate `GeneratorType` strategy
+3. Assert metadata is correct
+4. Optionally generate TypeScript and verify output
 
-### Building and Publishing
+---
+
+## Testing
+
+### Running Tests
+
+```bash
+dotnet test
+```
+
+### Test Coverage
+
+**Type Resolution Tests** (`TypeNameResolverTests.cs`):
+- Simple type names
+- Single and multiple generic parameters
+- Nested generics
+- Generic arrays
+- Generic properties
+
+**Type Generation Tests** (`ClassGeneratorTypeTests.cs`):
+- Simple class generation
+- Generic class generation
+- Interface detection
+- Command class detection
+
+**Inheritance Tests** (`InheritanceTests.cs`):
+- Base type name resolution
+- Generic base class support
+- Member inheritance
+
+**Integration Tests**:
+- `OneFileGeneratorTests.cs`: Full single-file generation
+- `SeparatedFilesGeneratorTests.cs`: Full multi-file generation
+
+---
+
+## Building and Publishing
 
 **Build**:
 ```bash
@@ -629,25 +976,35 @@ dotnet test
 - **Rationale**: Works with compiled assemblies, handles complex scenarios
 - **Trade-off**: Requires compiled types, not source-only
 
-### 2. T4 Templates for Code Generation
+### 2. Strategy Pattern for Type Generation
+- **Decision**: Separate generators for Class, Enum, Interface types
+- **Rationale**: Each type kind has unique metadata extraction needs
+- **Trade-off**: More classes to maintain, but clearer separation of concerns
+
+### 3. TypeNameResolver Utility
+- **Decision**: Centralized type-to-TypeScript-name resolution
+- **Rationale**: Complex logic for generics, arrays, and type parameters
+- **Trade-off**: Need to keep mappings in sync with TypeScript support
+
+### 4. T4 Templates for Code Generation
 - **Decision**: Use T4 text templates instead of string builders
 - **Rationale**: Separate concerns (template design vs logic), cleaner code
 - **Trade-off**: Need template preprocessing in build
 
-### 3. Two Generation Strategies
+### 5. Two Generation Strategies
 - **Decision**: Support both one-file and separated-file modes
 - **Rationale**: Different projects have different needs
 - **Trade-off**: More code to maintain
 
-### 4. Generic Interface Support
+### 6. Configurable Dependency Resolution
+- **Decision**: Options class to control which dependencies to resolve
+- **Rationale**: Flexibility for different use cases (properties only vs methods too)
+- **Trade-off**: More complex configuration
+
+### 7. Generic Interface Support
 - **Decision**: Special handling for `ICommand<T>` and `IRequestCommand`
 - **Rationale**: Command pattern is primary use case
 - **Trade-off**: Less flexible than generic interface support
-
-### 5. Lazy Type Resolution
-- **Decision**: Track used types and resolve them on demand
-- **Rationale**: Handle transitive dependencies efficiently
-- **Trade-off**: Multiple passes required sometimes
 
 ---
 
@@ -671,8 +1028,22 @@ dotnet test
 **Cause**: Dependency not tracked by TypeDependencyResolver
 **Solution**:
 1. Ensure all used types are in generated metadata
-2. Call `GetGeneratorTypesForUsedTypes()` for transitive dependencies
-3. Verify import path calculation in TypeDependencyResolver
+2. Check `TypeDependencyResolverOptions` matches your needs
+3. Verify import path calculation in templates
+
+### Issue: Generic Type Name Incorrect
+**Cause**: `TypeNameResolver` not recognizing the pattern
+**Solution**:
+1. Check if type is `IEnumerable<T>` (converted to `T[]`)
+2. Verify generic parameters are properly formed
+3. Add test case to `TypeNameResolverTests`
+
+### Issue: Base Type Not Generated in TypeScript
+**Cause**: Inheritance or base type tracking not working
+**Solution**:
+1. Ensure C# class explicitly declares base type (not `object`)
+2. Check `GeneratorType.BaseTypeName` is populated
+3. Verify template includes `extends` keyword for non-null base types
 
 ---
 
@@ -680,6 +1051,7 @@ dotnet test
 
 - **Reflection Impact**: Type analysis uses reflection; minimize assembly loads
 - **Caching**: XML documentation is cached in `LoadedXmlDocumentation`
+- **Dependency Resolution**: `GetAllDependencies()` is recursive; use options to limit scope
 - **Memory**: Large projects may benefit from separated files generation
 - **File I/O**: Batch file writes for performance
 
@@ -689,18 +1061,13 @@ dotnet test
 
 Potential improvements for future versions:
 
-1. Support more generic interface patterns
-2. Custom attribute-based generation control
-3. TypeScript strict mode optimizations
-4. Angular/React specific output modes
-5. JSON schema integration
-6. Performance optimizations for large codebases
-
----
-
-## References
-
-- **Repository**: https://github.com/a-t-k/CsharpToTypeScriptConverter
-- **NuGet Package**: https://www.nuget.org/packages/TypeScriptRequestCommandsGenerator
-- **.NET Framework**: .NET 9.0
-- **Related Patterns**: CQRS, Event Sourcing, Domain-Driven Design
+1. Support for record types (C# 9+)
+2. Support for init-only properties
+3. Custom attribute-based generation control
+4. TypeScript strict mode optimizations
+5. Angular/React specific output modes
+6. JSON schema integration
+7. Performance optimizations for large codebases
+8. Support for nullable reference types annotations
+9. Generic constraint support
+10. Method signature generation for interfaces
