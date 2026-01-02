@@ -100,7 +100,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                     : $"{{ {fileNameWithoutExtension} as {fileMetaData.Name} }}";
 
                 exports.Add($"""
-                             export {exportType} from "./{path}";
+                             export {exportType} from "./";
                              """);
             }
 
