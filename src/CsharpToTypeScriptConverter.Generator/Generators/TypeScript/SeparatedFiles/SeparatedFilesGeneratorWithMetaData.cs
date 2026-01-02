@@ -61,12 +61,12 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                     Path = typeFileGenerator.GenerateRelativePath(c.Type.Namespace)
                            + typeFileGenerator.NamespacePath(d.Type)
                            + "/"
-                           + this.GetFileName(typeFileGenerator.GetFileNameFromType(d.Type))
+                           + typeFileGenerator.GetFileNameFromType(d.Type)
                 }).ToList();
                 result.Add(new TypeScriptImportDependency
                 {
                     Name = CommandInterface.Settings.RequestCommandInterfaceName,
-                    Path = "./" + commandInterfaceFileToSave.FileName
+                    Path = "./" + CommandInterface.Settings.RequestCommandInterfaceName
                 });
 
                 string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
@@ -93,7 +93,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                     Path = fileGenerator.GenerateRelativePath(c.Type.Namespace)
                            + fileGenerator.NamespacePath(d.Type)
                            + "/"
-                           + this.GetFileName(fileGenerator.GetFileNameFromType(d.Type))
+                           + fileGenerator.GetFileNameFromType(d.Type)
                 });
 
                 string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
