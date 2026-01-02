@@ -30,8 +30,6 @@
 - Supports command patterns with `ICommand<T>` and `IRequestCommand` interfaces
 - Generates type metadata for JSON deserialization
 - Intelligent type name resolution for generics and type parameters
-- Framework: .NET 9.0
-- Package Version: 0.9.1
 
 ### Use Case
 This library is designed for communication between an ASP.NET API and a TypeScript client using a command-based architecture. It ensures type safety and consistency across language boundaries while maintaining domain language clarity. The library automatically tracks type dependencies and generates proper imports for modular TypeScript code.
