@@ -91,13 +91,16 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 
             foreach (var fileMetaData in fileMetadataCollection)
             {
+                string reexportingType = fileMetaData.FileMetadataType == FileMetadataType.Enumeration
+                    ? string.Empty
+                    : "type";
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileMetaData.FileName);
                 string exportType = fileMetaData.Name == fileNameWithoutExtension
                     ? $"{{ {fileNameWithoutExtension} }}"
                     : $"{{ {fileNameWithoutExtension} as {fileMetaData.Name} }}";
 
                 exports.Add($"""
-                             export {exportType} from "./{fileNameWithoutExtension}";
+                             export {reexportingType + exportType} from "./{fileNameWithoutExtension}";
                              """);
             }
 
