@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace TypeScriptRequestCommandsGenerator.Models
 {
@@ -15,15 +14,10 @@ namespace TypeScriptRequestCommandsGenerator.Models
         {
             get
             {
-                var regex = new Regex(@"ICommand<([^>]+)>");
                 if (this.ImplementsInterfaceTypeNames.Length == 1)
                 {
-                    string interfaceDefinition = this.GetImplementsInterfaceTypeNames;
-                    var match = regex.Match(interfaceDefinition);
-                    if (match.Success)
-                    {
-                        return match.Groups[1].Value;
-                    }
+                    string result = GetGenericParameter(this.GetImplementsInterfaceTypeNames);
+                    return result;
                 }
 
                 return string.Empty;
@@ -43,5 +37,48 @@ namespace TypeScriptRequestCommandsGenerator.Models
         public string GeneratedCode { get; set; }
         public Type Type { get; set; }
         public override string ToString() => $"{this.Kind}-{this.Name}";
+
+        private static string GetGenericParameter(string typeString)
+        {
+            // Find the index of the opening angle bracket
+            int openBracketIndex = typeString.IndexOf('<');
+            if (openBracketIndex == -1)
+            {
+                return null; // Not a generic type
+            }
+
+            // Find the matching closing angle bracket
+            int closeBracketIndex = FindMatchingCloseBracket(typeString, openBracketIndex);
+            if (closeBracketIndex == -1)
+            {
+                return null; // Unmatched brackets
+            }
+
+            string genericParams = typeString.Substring(openBracketIndex + 1, closeBracketIndex - openBracketIndex - 1);
+            return genericParams;
+        }
+
+        // Helper function to find the matching closing bracket
+        private static int FindMatchingCloseBracket(string str, int openIndex)
+        {
+            int count = 1;
+            for (int i = openIndex + 1; i < str.Length; i++)
+            {
+                if (str[i] == '<')
+                {
+                    count++;
+                }
+                else if (str[i] == '>')
+                {
+                    count--;
+                    if (count == 0)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
+        }
     }
 }

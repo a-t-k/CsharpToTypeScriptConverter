@@ -55,7 +55,9 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
         public SeparatedFilesGenerator AddRangeOfCommandTypesToGenerate(
             IEnumerable<Type> commandTypesToGenerateParameter)
         {
-            this.commandTypesToGenerate.AddRange(commandTypesToGenerateParameter);
+            var typesToGenerate = commandTypesToGenerateParameter.Where(t => !t.IsAbstract)
+                .Where(t => t.GetInterfaces().Contains(this.interfaceFilterType) && t.IsClass);
+            this.commandTypesToGenerate.AddRange(typesToGenerate);
             return this;
         }
 
