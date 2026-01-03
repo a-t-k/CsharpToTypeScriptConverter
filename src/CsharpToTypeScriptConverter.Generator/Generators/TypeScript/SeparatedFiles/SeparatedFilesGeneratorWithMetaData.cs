@@ -66,7 +66,8 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                 result.Add(new TypeScriptImportDependency
                 {
                     Name = CommandInterface.Settings.RequestCommandInterfaceName,
-                    Path = "./" + CommandInterface.Settings.RequestCommandInterfaceName
+                    Path = typeFileGenerator.GenerateRelativePath(c.Type.Namespace) +
+                           CommandInterface.Settings.RequestCommandInterfaceName
                 });
 
                 string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
