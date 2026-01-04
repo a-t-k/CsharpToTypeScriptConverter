@@ -32,8 +32,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             typeof(ICollection<>),
             typeof(IQueryable),
             typeof(IQueryable<>),
-            typeof(Array),
-            typeof(object)
+            typeof(Array)
         ];
 
         public TypeDependencyResolver(List<Type> ignoreTypes = null, TypeDependencyResolverOptions options = null)
@@ -84,7 +83,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                     var baseType = type.BaseType;
                     if (baseType != null && baseType != typeof(object))
                     {
-                        dependencies.Add((baseType, this.GetTypeKind(baseType)));
+                        this.ResolveGenericsFromType([baseType], dependencies);
                     }
                 }
 
