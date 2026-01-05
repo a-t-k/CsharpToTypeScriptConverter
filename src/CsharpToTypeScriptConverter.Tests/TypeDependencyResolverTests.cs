@@ -41,6 +41,7 @@ namespace CsharpToTypeScriptConverter.Tests
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
+            public object Value { get; set; }
         }
 
         private interface ICustomer

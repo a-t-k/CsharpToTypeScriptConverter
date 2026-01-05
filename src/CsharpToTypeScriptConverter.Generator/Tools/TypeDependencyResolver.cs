@@ -10,6 +10,8 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         private readonly TypeDependencyResolverOptions options = new();
         private readonly List<Type> ignoreCustomerTypes = [];
 
+        private readonly Type objectType = typeof(object);
+
         private readonly List<Type> ignoredCSharpValueType =
         [
             typeof(bool),
@@ -127,6 +129,11 @@ namespace TypeScriptRequestCommandsGenerator.Tools
 
         private bool IsNotIgnoredCSharpType(Type type)
         {
+            if (type == this.objectType)
+            {
+                return false;
+            }
+
             bool result = !this.ignoredCSharpComplexTypes.Any(it => it.IsAssignableFrom(type))
                           && !this.ignoredCSharpValueType.Contains(type)
                           && !this.ignoreCustomerTypes.Any(it => it.IsAssignableFrom(type));
@@ -140,6 +147,11 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         {
             foreach (var type in types)
             {
+                if (!this.IsNotIgnoredCSharpType(type))
+                {
+                    continue;
+                }
+
                 // its "T" as Class with empty GUID and empty FullName. Only for generic definition
                 if (type.IsGenericTypeParameter)
                 {
