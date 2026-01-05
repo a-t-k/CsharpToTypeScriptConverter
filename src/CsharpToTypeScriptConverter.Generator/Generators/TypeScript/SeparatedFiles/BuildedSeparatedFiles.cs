@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using TypeScriptRequestCommandsGenerator.Models;
 using TypeScriptRequestCommandsGenerator.Tools;
 
@@ -36,7 +37,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
 
             foreach (var buildFile in this.BuildFiles)
             {
-                File.WriteAllText(buildFile.Path, buildFile.Content);
+                File.WriteAllText(buildFile.Path, buildFile.Content, Encoding.UTF8);
             }
         }
     }

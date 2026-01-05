@@ -68,7 +68,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
             if (directory.Exists)
             {
                 string path = Path.Combine(directory.FullName, fileName);
-                File.AppendAllText(path, this.TransformedText, Encoding.UTF8);
+                File.WriteAllText(path, this.TransformedText, Encoding.UTF8);
             }
 
             return this;
