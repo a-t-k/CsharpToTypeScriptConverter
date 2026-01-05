@@ -9,7 +9,7 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
     public class BuildedSeparatedFiles
     {
         public List<BuildFile> BuildFiles { get; }
-        public IGrouping<string, FileMetadata>[] Groups { get; }
+        private IGrouping<string, FileMetadata>[] Groups { get; }
         private readonly string outputDirectory;
         private readonly TypeFileGenerator typeFileGenerator;
 
@@ -22,8 +22,13 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
             this.typeFileGenerator = new TypeFileGenerator();
         }
 
-        public void Save()
+        public void Save(bool clearDestinationFolder = false)
         {
+            if (clearDestinationFolder && Directory.Exists(this.outputDirectory))
+            {
+                Directory.Delete(this.outputDirectory, true);
+            }
+
             foreach (var group in this.Groups)
             {
                 this.typeFileGenerator.CreateDirectoryIfNotExist(group.Key);
