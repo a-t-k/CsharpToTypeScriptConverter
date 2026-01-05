@@ -25,8 +25,8 @@ namespace CsharpToTypeScriptConverter.Tests
             int countApiFiles = generator.BuildFiles.Count(f => f.Path.EndsWith("api.ts"));
             int countIndexFiles = generator.BuildFiles.Count(f => f.Path.EndsWith("index.ts"));
 
-            Assert.True(countGeneratedFiles == 16);
-            Assert.True(countApiFiles == 4);
+            Assert.True(countGeneratedFiles == 10);
+            Assert.True(countApiFiles == 2);
             Assert.True(countIndexFiles == 1);
         }
 

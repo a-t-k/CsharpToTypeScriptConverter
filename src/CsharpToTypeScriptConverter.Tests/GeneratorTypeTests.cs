@@ -1,5 +1,4 @@
 using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
 using static Xunit.Assert;
 
 namespace CsharpToTypeScriptConverter.Tests
@@ -19,8 +18,8 @@ namespace CsharpToTypeScriptConverter.Tests
         {
             var generatorType =
                 new GeneratorType { ImplementsInterfaceTypeNames = ["ICommand<Pagination<List<User>>>"] };
-            string? commandRetunrTypeName = generatorType.CommandReturnTypeName;
-            True(commandRetunrTypeName == "Pagination<List<User>>");
+            string? commandReturnTypeName = generatorType.CommandReturnTypeName;
+            True(commandReturnTypeName == "Pagination<List<User>>");
         }
     }
 }

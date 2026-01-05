@@ -129,11 +129,6 @@ namespace TypeScriptRequestCommandsGenerator.Tools
 
         private bool IsNotIgnoredCSharpType(Type type)
         {
-            if (type == this.objectType)
-            {
-                return false;
-            }
-
             bool result = !this.ignoredCSharpComplexTypes.Any(it => it.IsAssignableFrom(type))
                           && !this.ignoredCSharpValueType.Contains(type)
                           && !this.ignoreCustomerTypes.Any(it => it.IsAssignableFrom(type));
@@ -147,7 +142,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         {
             foreach (var type in types)
             {
-                if (!this.IsNotIgnoredCSharpType(type))
+                if (type == this.objectType)
                 {
                     continue;
                 }
