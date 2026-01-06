@@ -5,7 +5,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>Generates Classes. Enums from C# to TypeScript</Title>
-        <Version>0.9.49</Version>
+        <Version>01.00.00</Version>
         <Description>Generates classes, enums, interfaces from c# to type script code. Support generics and arrays. Create one file or separated files.</Description>
         <RepositoryUrl>https://github.com/a-t-k/CsharpToTypeScriptConverter</RepositoryUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
