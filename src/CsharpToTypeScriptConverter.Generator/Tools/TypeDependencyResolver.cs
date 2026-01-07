@@ -34,7 +34,9 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             typeof(ICollection<>),
             typeof(IQueryable),
             typeof(IQueryable<>),
-            typeof(Array)
+            typeof(Array),
+            typeof(Guid),
+            typeof(DateTime)
         ];
 
         public TypeDependencyResolver(List<Type> ignoreTypes = null, TypeDependencyResolverOptions options = null)

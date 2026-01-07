@@ -36,10 +36,16 @@ namespace CsharpToTypeScriptConverter.Tests
     /// <summary>
     /// Return type of found users.
     /// </summary>
-    public class FoundUsers
+    public class FoundUsers : IEntity
     {
         public int UsersCount { get; set; }
         public PaginationResponse<User> Users { get; set; } = new();
+        public long Id { get; set; }
+    }
+
+    public interface IEntity
+    {
+        public long Id { get; set; }
     }
 
     public class User

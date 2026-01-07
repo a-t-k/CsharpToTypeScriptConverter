@@ -82,32 +82,33 @@ namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFile
                 };
             }).ToArray();
 
-            var generatedUsedTypes = metadata.Where(x => x.Kind == GeneratorTypeKind.Class).Select(c =>
-            {
-                string generatedType = new ComplexTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
-                var dependencies = new TypeDependencyResolver(ignoredCustomerTypes).GetDependencies(c.Type, false);
-                var fileGenerator = new TypeFileGenerator();
-                string name = fileGenerator.GetFileNameFromType(c.Type);
-                var result = dependencies.Select(d => new TypeScriptImportDependency
+            var generatedUsedTypes = metadata
+                .Where(x => x.Kind is GeneratorTypeKind.Class or GeneratorTypeKind.Interface).Select(c =>
                 {
-                    Name = fileGenerator.GetFileNameFromType(d.Type),
-                    Path = fileGenerator.GenerateRelativePath(c.Type.Namespace)
-                           + fileGenerator.NamespacePath(d.Type)
-                           + "/"
-                           + fileGenerator.GetFileNameFromType(d.Type)
-                });
+                    string generatedType = new ComplexTypeScriptGenerator { TypeToGenerate = c }.TransformText().Trim();
+                    var dependencies = new TypeDependencyResolver(ignoredCustomerTypes).GetDependencies(c.Type, false);
+                    var fileGenerator = new TypeFileGenerator();
+                    string name = fileGenerator.GetFileNameFromType(c.Type);
+                    var result = dependencies.Select(d => new TypeScriptImportDependency
+                    {
+                        Name = fileGenerator.GetFileNameFromType(d.Type),
+                        Path = fileGenerator.GenerateRelativePath(c.Type.Namespace)
+                               + fileGenerator.NamespacePath(d.Type)
+                               + "/"
+                               + fileGenerator.GetFileNameFromType(d.Type)
+                    });
 
-                string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
-                return new FileMetadata
-                {
-                    FileMetadataType = FileMetadataType.UsedType,
-                    Name = name,
-                    TransformedText = generatedWarning + importsGenerated + generatedType,
-                    FilePath = Path.Combine(fileGenerator.NamespacePath(c.Type)),
-                    FileName = this.GetFileName(name),
-                    Type = c.Type
-                };
-            }).ToArray();
+                    string importsGenerated = new TypeScriptImports { Dependencies = result.ToList() }.TransformText();
+                    return new FileMetadata
+                    {
+                        FileMetadataType = FileMetadataType.UsedType,
+                        Name = name,
+                        TransformedText = generatedWarning + importsGenerated + generatedType,
+                        FilePath = Path.Combine(fileGenerator.NamespacePath(c.Type)),
+                        FileName = this.GetFileName(name),
+                        Type = c.Type
+                    };
+                }).ToArray();
 
             var allGeneratedFiles = new List<FileMetadata> { commandInterfaceFileToSave };
             allGeneratedFiles.AddRange(generatedEnumerations);

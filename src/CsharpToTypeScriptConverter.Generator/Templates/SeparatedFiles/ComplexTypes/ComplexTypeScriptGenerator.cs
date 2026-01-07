@@ -85,7 +85,7 @@ namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTyp
             #line hidden
             
             #line 15 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\ComplexTypes\ComplexTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(@type.ImplementsInterfaceTypeNames.Any()? "implements " + @type.GetImplementsInterfaceTypeNames : string.Empty));
+            this.Write(this.ToStringHelper.ToStringWithCulture(@type.ImplementsInterfaceTypeNames.Any()? !string.IsNullOrWhiteSpace(@type.BaseTypeName)? string.Empty: "extends " + @type.GetImplementsInterfaceTypeNames : string.Empty));
             
             #line default
             #line hidden

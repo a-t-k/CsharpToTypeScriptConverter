@@ -47,8 +47,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             Type returnTypeFilter)
         {
             var typesToGenerate = types
-                .Where(t => !t.IsAbstract)
-                .Where(t => t.IsClass || t.IsEnum || t.IsInterface);
+                .Where(t => (t.IsClass && !t.IsAbstract) || t.IsEnum || t.IsInterface);
 
             var generatorTypes = typesToGenerate
                 .Select(t =>

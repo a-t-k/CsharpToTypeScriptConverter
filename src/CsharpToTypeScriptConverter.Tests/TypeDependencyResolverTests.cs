@@ -26,6 +26,8 @@ namespace CsharpToTypeScriptConverter.Tests
             public int Id { get; set; }
             public string Name { get; set; }
             public Person Owner { get; set; }
+            public Guid TypeId { get; set; }
+            public DateTime CreatedAt { get; set; }
         }
 
         private class MyBaseClass<T> : object

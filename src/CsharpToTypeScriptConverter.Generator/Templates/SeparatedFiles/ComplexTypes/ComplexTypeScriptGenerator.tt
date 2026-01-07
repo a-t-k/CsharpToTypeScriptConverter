@@ -12,7 +12,7 @@
 <# } #>
 */
 <#}#>
-export interface <#= @type.Name #> <#=!string.IsNullOrWhiteSpace(@type.BaseTypeName)? "extends " + @type.BaseTypeName + " ": string.Empty#><#=@type.ImplementsInterfaceTypeNames.Any()? "implements " + @type.GetImplementsInterfaceTypeNames : string.Empty#>
+export interface <#= @type.Name #> <#=!string.IsNullOrWhiteSpace(@type.BaseTypeName)? "extends " + @type.BaseTypeName + " ": string.Empty#><#=@type.ImplementsInterfaceTypeNames.Any()? !string.IsNullOrWhiteSpace(@type.BaseTypeName)? string.Empty: "extends " + @type.GetImplementsInterfaceTypeNames : string.Empty#>
 {
 <#  foreach(var member in @type.Members) { #>
 	    <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#><#= member.IsDeclaredAsGeneric? ":": ":" #> <#= member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false) #>;
