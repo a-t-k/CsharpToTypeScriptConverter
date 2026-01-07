@@ -149,6 +149,16 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                     continue;
                 }
 
+                if (type.IsArray)
+                {
+                    var elementType = type.GetElementType();
+                    if (elementType != null)
+                    {
+                        this.ResolveGenericsFromType([elementType], dependencies);
+                        continue;
+                    }
+                }
+
                 // its "T" as Class with empty GUID and empty FullName. Only for generic definition
                 if (type.IsGenericTypeParameter)
                 {
