@@ -30,6 +30,19 @@ namespace CsharpToTypeScriptConverter.Tests
             True(result.Count == 4);
         }
 
+        [Fact]
+        public void Resolve_WhenIncludeSelfIsFalse_Works()
+        {
+            var resolver = new TypeDependencyResolver();
+            var resultWithInclude = resolver.GetDependencies(typeof(IncludeSelf));
+            var resultWithoutInclude = resolver.GetDependencies(typeof(IncludeSelf), false);
+
+            NotNull(resultWithInclude);
+            NotNull(resultWithoutInclude);
+            True(resultWithInclude.Count == 1);
+            True(resultWithoutInclude.Count == 0);
+        }
+
         private class MyDerivedTestClass : MyBaseClass<MyGenericType>
         {
             public int Id { get; set; }
@@ -59,7 +72,7 @@ namespace CsharpToTypeScriptConverter.Tests
         {
         }
 
-        public class LandingPageFragenCmsBlock : ICmsBlock
+        private class LandingPageFragenCmsBlock : ICmsBlock
         {
             public CmsBlockContentTypes ContentType => CmsBlockContentTypes.LandingpageFragen;
             public string? Title { get; set; }
@@ -69,12 +82,12 @@ namespace CsharpToTypeScriptConverter.Tests
             public ICmsBlock[] Faqs { get; set; } = [];
         }
 
-        public interface ICmsBlock
+        private interface ICmsBlock
         {
             public CmsBlockContentTypes ContentType { get; }
         }
 
-        public enum CmsBlockContentTypes
+        private enum CmsBlockContentTypes
         {
             Unknown = 0,
             Image = 1,
@@ -97,7 +110,7 @@ namespace CsharpToTypeScriptConverter.Tests
             LandingpageFooter = 18
         }
 
-        public class CmsButton
+        private class CmsButton
         {
             public string? Title { get; set; }
             public string? ButtonType { get; set; }
@@ -106,11 +119,17 @@ namespace CsharpToTypeScriptConverter.Tests
             public CmsUrl? Url { get; set; }
         }
 
-        public class CmsUrl
+        private class CmsUrl
         {
             public string? Url { get; set; }
             public string? Name { get; set; }
             public string? Target { get; set; }
+        }
+
+        private class IncludeSelf
+        {
+            public int Id { get; set; }
+            public IncludeSelf Self { get; set; }
         }
     }
 }

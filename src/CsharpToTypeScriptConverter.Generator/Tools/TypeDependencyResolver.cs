@@ -57,7 +57,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             var dependencies = new List<(Type type, TypeKind typeKind)>();
             if (this.ignoredCSharpValueType.Contains(type))
             {
-                return dependencies.Distinct().Where(x => this.IsNotIgnoredCSharpType(x.type)).ToList();
+                return this.DistinctAndFilterTypes(type, includeSelf, dependencies);
             }
 
             if (type.IsGenericType && !type.IsGenericTypeDefinition)
@@ -125,11 +125,24 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                 }
             }
 
-            // remove doublets and ignored
-            return dependencies.Distinct().Where(x => this.IsNotIgnoredCSharpType(x.type)).ToList();
+            return this.DistinctAndFilterTypes(type, includeSelf, dependencies);
         }
 
-        private bool IsNotIgnoredCSharpType(Type type)
+        /// <summary>
+        /// remove doublets and ignored types
+        /// </summary>
+        /// <param name="type">collection filter this out, when includeSelf is true</param>
+        /// <param name="includeSelf">filter or not type</param>
+        /// <param name="dependencies">all found dependency types</param>
+        /// <returns></returns>
+        private List<(Type type, TypeKind typeKind)> DistinctAndFilterTypes(Type type, bool includeSelf,
+            List<(Type type, TypeKind typeKind)> dependencies) =>
+            dependencies.Distinct()
+                .Where(x => this.IsNotIgnoredType(x.type))
+                .Where(x => includeSelf || x.type != type)
+                .ToList();
+
+        private bool IsNotIgnoredType(Type type)
         {
             bool result = !this.ignoredCSharpComplexTypes.Any(it => it.IsAssignableFrom(type))
                           && !this.ignoredCSharpValueType.Contains(type)
