@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,7 +13,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
     /// </summary>
     internal static class DocumentationTools
     {
-        internal static Dictionary<string, string> LoadedXmlDocumentation = new();
+        internal static ConcurrentDictionary<string, string> LoadedXmlDocumentation = new();
 
         public static string GetDirectoryPath(this Assembly assembly)
         {
@@ -23,7 +23,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             return Path.GetDirectoryName(path);
         }
 
-        internal static HashSet<Assembly> LoadedAssemblies = [];
+        internal static ConcurrentQueue<Assembly> LoadedAssemblies = [];
 
         internal static void LoadXmlDocumentation(Assembly assembly)
         {
@@ -37,7 +37,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             if (File.Exists(xmlFilePath))
             {
                 LoadXmlDocumentation(File.ReadAllText(xmlFilePath));
-                LoadedAssemblies.Add(assembly);
+                LoadedAssemblies.Enqueue(assembly);
             }
         }
 
