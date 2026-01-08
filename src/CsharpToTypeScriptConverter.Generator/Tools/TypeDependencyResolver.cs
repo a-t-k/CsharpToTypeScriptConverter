@@ -16,9 +16,16 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         [
             typeof(bool),
             typeof(int),
-            typeof(long),
+            typeof(uint),
             typeof(short),
+            typeof(ushort),
             typeof(long),
+            typeof(ulong),
+            typeof(byte),
+            typeof(sbyte),
+            typeof(float),
+            typeof(double),
+            typeof(decimal),
             typeof(string),
             typeof(char)
         ];
@@ -36,7 +43,14 @@ namespace TypeScriptRequestCommandsGenerator.Tools
             typeof(IQueryable<>),
             typeof(Array),
             typeof(Guid),
-            typeof(DateTime)
+            typeof(DateTime),
+            typeof(Nullable<>),
+            typeof(Nullable)
+        ];
+
+        private readonly HashSet<Type> nullableTypes =
+        [
+            typeof(Nullable), typeof(Nullable<>)
         ];
 
         public TypeDependencyResolver(List<Type> ignoreTypes = null, TypeDependencyResolverOptions options = null)
@@ -55,6 +69,14 @@ namespace TypeScriptRequestCommandsGenerator.Tools
         public List<(Type Type, TypeKind Kind)> GetDependencies(Type type, bool includeSelf = true)
         {
             var dependencies = new List<(Type type, TypeKind typeKind)>();
+
+            // it is nullable?
+            if (type.IsGenericType && this.nullableTypes.Contains(type.GetGenericTypeDefinition()))
+            {
+                var nullableType = Nullable.GetUnderlyingType(type);
+                return this.GetDependencies(nullableType);
+            }
+
             if (this.ignoredCSharpValueType.Contains(type))
             {
                 return this.DistinctAndFilterTypes(type, includeSelf, dependencies);

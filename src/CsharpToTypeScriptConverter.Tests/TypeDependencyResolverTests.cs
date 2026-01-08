@@ -43,6 +43,24 @@ namespace CsharpToTypeScriptConverter.Tests
             True(resultWithoutInclude.Count == 0);
         }
 
+        [Fact]
+        public void Resolve_WhenPropertyIsNullable_Works()
+        {
+            var resolver = new TypeDependencyResolver();
+            var result = resolver.GetDependencies(typeof(ClassWithNullableProperty));
+
+            NotNull(result);
+            True(result.Count == 2);
+        }
+
+        private class ClassWithNullableProperty
+        {
+            public int? IamNullable { get; set; }
+            public int IamNotNullable { get; set; }
+            public ClassWithNullableProperty? Self { get; set; }
+            public Person? SelfPeerson { get; set; }
+        }
+
         private class MyDerivedTestClass : MyBaseClass<MyGenericType>
         {
             public int Id { get; set; }
