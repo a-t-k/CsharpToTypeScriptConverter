@@ -123,17 +123,10 @@ foreach(var @documentation in @class.Documentation){
             
             #line default
             #line hidden
-            this.Write("?");
+            this.Write("?: ");
             
             #line 20 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? ":": ":"));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 20 "D:\GIT\CsharpToTypeScriptConverter\src\CsharpToTypeScriptConverter.Generator\Templates\SeparatedFiles\Commands\CommandTypeScriptGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(member.PropertyTypeName));
             
             #line default
             #line hidden

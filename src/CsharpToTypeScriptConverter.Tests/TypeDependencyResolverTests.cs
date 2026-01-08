@@ -1,6 +1,4 @@
-using System.Net.Sockets;
 using TypeScriptRequestCommandsGenerator.Tools;
-using TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
 using static Xunit.Assert;
 
 namespace CsharpToTypeScriptConverter.Tests

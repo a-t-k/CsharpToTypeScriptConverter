@@ -21,6 +21,14 @@ namespace CsharpToTypeScriptConverter.Tests
             True(meta.ImplementsInterfaceTypeNames.Any());
         }
 
+        [Fact]
+        public void Generate_Command_Works()
+        {
+            var meta = ClassGeneratorType.Get(typeof(SaveStrukturelementenOrderInOrgaRequestCommand), null);
+            NotNull(meta);
+            Contains(meta.Members, x => x.PropertyTypeName == "OrderedItem<number>[]");
+        }
+
         private class GenerateTestClass
         {
             public int Id { get; set; }
@@ -35,6 +43,30 @@ namespace CsharpToTypeScriptConverter.Tests
 
         private interface IGenerateTestInterface
         {
+        }
+
+        private class SaveStrukturelementenOrderInOrgaRequestCommand : IRequestCommand, ICommand<ApiResponse<bool>>
+        {
+            public long ParentStrukturElementId { get; }
+            public OrderedItem<long>[] StrukturelementenOrder { get; }
+
+            /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
+            public SaveStrukturelementenOrderInOrgaRequestCommand(long parentStrukturElementId,
+                OrderedItem<long>[] strukturelementenOrder)
+            {
+                this.ParentStrukturElementId = parentStrukturElementId;
+                this.StrukturelementenOrder = strukturelementenOrder;
+            }
+        }
+
+        private class ApiResponse<T>
+        {
+        }
+
+        private class OrderedItem<T>
+        {
+            public int Order { get; set; }
+            public T Item { get; set; }
         }
     }
 }

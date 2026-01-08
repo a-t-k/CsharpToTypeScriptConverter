@@ -17,6 +17,6 @@ export class <#= @class.Name #> <#=!string.IsNullOrWhiteSpace(@class.BaseTypeNam
     private readonly $type? = "<#= @class.TypeNameForJsonDeserialization#>";
     public _?: <#= @class.CommandReturnTypeName #>;
 <#    foreach(var member in @class.Members) { #>
-    public <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#>?<#= member.IsDeclaredAsGeneric? ":": ":" #> <#= member.IsDeclaredAsGeneric? member.GenericName : GetTypeScriptFieldTypeName(member.Type, null, false, false) #>;
+    public <#= char.ToLower(member.Name[0]) + member.Name.Substring(1)#>?: <#= member.PropertyTypeName #>;
 <#    } #>
 }

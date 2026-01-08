@@ -102,17 +102,11 @@ namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
             type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Select(p =>
                 {
-                    bool isDeclaredAsGeneric = p.DeclaringType is not null && p.DeclaringType.IsGenericType &&
-                                               p.DeclaringType.GetGenericTypeDefinition().GetProperty(p.Name)!
-                                                   .PropertyType.IsGenericParameter;
-                    var generatorMember = new GeneratorMember
-                    {
-                        Name = p.Name, Type = p.PropertyType, IsDeclaredAsGeneric = isDeclaredAsGeneric
-                    };
+                    var generatorMember = new GeneratorMember { Name = p.Name, Type = p.PropertyType };
 
                     string propertyGenericTypeName =
                         TypeNameResolver.Resolve(p.PropertyType);
-                    generatorMember.GenericName = propertyGenericTypeName;
+                    generatorMember.PropertyTypeName = propertyGenericTypeName;
                     return generatorMember;
                 }).ToList();
 
