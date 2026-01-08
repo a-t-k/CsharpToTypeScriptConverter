@@ -252,7 +252,7 @@ namespace TypeScriptRequestCommandsGenerator.Tools
                 var dependencies = this.GetDependencies(currentType);
                 foreach (var (type, _) in dependencies)
                 {
-                    if (allDependencies.TryAdd(type.Name, type))
+                    if (allDependencies.TryAdd(type.FullName, type))
                     {
                         typesToProcess.Enqueue(type);
                     }
