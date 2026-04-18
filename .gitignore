@@ -1,6 +1,4 @@
-﻿.vs
-src/ATK.Command.CsToTsGenerator.Tests/obj
-src/ATK.Command.CsToTsGenerator/bin
-src/ATK.Command.CsToTsGenerator/obj
-src/ATK.Command.CsToTsGenerator.Tests/bin
+.vs
 *.user
+bin
+obj
