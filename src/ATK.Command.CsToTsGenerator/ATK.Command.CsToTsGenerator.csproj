@@ -4,10 +4,14 @@
         <OutputType>library</OutputType>
         <TargetFramework>net10.0</TargetFramework>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Title>Generates TypeScript code types from C# over reflection</Title>
-        <Version>01.01.08</Version>
-        <Description>Generates TypeScript code types from C# over reflection. Support generics and collections. Result can be stored as one file for all types, or separated in files per type.</Description>
-        <RepositoryUrl>https://github.com/a-t-k/CsharpToTypeScriptConverter</RepositoryUrl>
+        <Title>C# to TypeScript code generator</Title>
+        <Version>01.01.09</Version>
+        <Description>
+            Code generator for automatic generation of TypeScript types from C# types using .NET Reflection.
+            Support generics and collections.
+            Result can be stored as one file for all types, or separated in files per type.
+        </Description>
+        <RepositoryUrl>https://github.com/a-t-k/ATK.Command.CsToTsGenerator</RepositoryUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>

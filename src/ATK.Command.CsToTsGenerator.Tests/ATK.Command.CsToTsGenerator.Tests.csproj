@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CsharpToTypeScriptConverter.Generator\ATK.Command.CsToTsGenerator.csproj" />
+		<ProjectReference Include="..\ATK.Command.CsToTsGenerator\ATK.Command.CsToTsGenerator.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
