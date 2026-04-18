@@ -1,6 +1,6 @@
 ﻿.vs
-src/CsharpToTypeScriptConverter.Tests/obj
-src/CsharpToTypeScriptConverter.Generator/bin
-src/CsharpToTypeScriptConverter.Generator/obj
-src/CsharpToTypeScriptConverter.Tests/bin
+src/ATK.Command.CsToTsGenerator.Tests/obj
+src/ATK.Command.CsToTsGenerator/bin
+src/ATK.Command.CsToTsGenerator/obj
+src/ATK.Command.CsToTsGenerator.Tests/bin
 *.user
