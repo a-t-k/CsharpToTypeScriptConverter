@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace TypeScriptRequestCommandsGenerator.Tools
+namespace ATK.Command.CsToTsGenerator.Tools
 {
     public class TypeFileGenerator
     {

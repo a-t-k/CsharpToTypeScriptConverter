@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TypeScriptRequestCommandsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes
+namespace ATK.Command.CsToTsGenerator.Tools.GeneratorTypes
 {
     public static class ClassGeneratorType
     {

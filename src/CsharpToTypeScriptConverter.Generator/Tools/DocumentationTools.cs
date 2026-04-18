@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace TypeScriptRequestCommandsGenerator.Tools
+namespace ATK.Command.CsToTsGenerator.Tools
 {
     /// <summary>
     /// Tolls for creating documentation.

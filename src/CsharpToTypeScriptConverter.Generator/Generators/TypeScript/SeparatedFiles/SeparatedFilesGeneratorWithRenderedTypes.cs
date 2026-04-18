@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
+namespace ATK.Command.CsToTsGenerator.Generators.TypeScript.SeparatedFiles
 {
     public class SeparatedFilesGeneratorWithRenderedTypes
     {

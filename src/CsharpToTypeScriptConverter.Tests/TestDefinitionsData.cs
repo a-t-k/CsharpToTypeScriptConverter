@@ -1,4 +1,4 @@
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     /// <summary>
     /// The interface is a generic type that defines a contract for request commands.

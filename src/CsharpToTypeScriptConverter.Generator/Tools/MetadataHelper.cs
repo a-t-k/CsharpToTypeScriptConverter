@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Tools.GeneratorTypes;
 
-namespace TypeScriptRequestCommandsGenerator.Tools
+namespace ATK.Command.CsToTsGenerator.Tools
 {
     public static class MetadataHelper
     {

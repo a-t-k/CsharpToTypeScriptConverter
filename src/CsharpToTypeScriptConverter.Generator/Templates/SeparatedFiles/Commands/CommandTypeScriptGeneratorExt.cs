@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Tools;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Commands
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Commands
 {
     public partial class CommandTypeScriptGenerator
     {

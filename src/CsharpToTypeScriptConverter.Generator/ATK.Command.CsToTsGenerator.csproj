@@ -4,9 +4,9 @@
         <OutputType>library</OutputType>
         <TargetFramework>net10.0</TargetFramework>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Title>Generates Classes. Enums from C# to TypeScript</Title>
+        <Title>Generates TypeScript code types from C# over reflection</Title>
         <Version>01.01.08</Version>
-        <Description>Generates classes, enums, interfaces from c# to type script code. Support generics and arrays. Create one file or separated files.</Description>
+        <Description>Generates TypeScript code types from C# over reflection. Support generics and collections. Result can be stored as one file for all types, or separated in files per type.</Description>
         <RepositoryUrl>https://github.com/a-t-k/CsharpToTypeScriptConverter</RepositoryUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -14,10 +14,6 @@
 
     <ItemGroup>
         <None Include="..\..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-        <None Include="..\..\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

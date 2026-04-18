@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
-using TypeScriptRequestCommandsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.TypeScriptImports;
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.TypeScriptImports;
 
 public partial class TypeScriptImports
 {

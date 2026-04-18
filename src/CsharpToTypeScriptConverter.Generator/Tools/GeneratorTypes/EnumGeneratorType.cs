@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Models;
 
-namespace TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
+namespace ATK.Command.CsToTsGenerator.Tools.GeneratorTypes;
 
 public static class EnumGeneratorType
 {

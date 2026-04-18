@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TypeScriptRequestCommandsGenerator.Tools
+namespace ATK.Command.CsToTsGenerator.Tools
 {
     public class TypeDependencyResolver
     {

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Tools;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Enumerations
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Enumerations
 {
     public partial class EnumTypeScriptGenerator
     {

@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CodeGenerationWarning
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CodeGenerationWarning
 {
     using System.Linq;
     using System.Text;

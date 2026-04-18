@@ -1,6 +1,6 @@
 using System;
 
-namespace TypeScriptRequestCommandsGenerator.Models;
+namespace ATK.Command.CsToTsGenerator.Models;
 
 public class GeneratorMember
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TypeScriptRequestCommandsGenerator.Models
+namespace ATK.Command.CsToTsGenerator.Models
 {
     public class GeneratorType
     {

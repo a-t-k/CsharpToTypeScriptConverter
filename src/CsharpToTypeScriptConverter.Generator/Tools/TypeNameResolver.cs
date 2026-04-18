@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TypeScriptRequestCommandsGenerator.Tools
+namespace ATK.Command.CsToTsGenerator.Tools
 {
     public static class TypeNameResolver
     {

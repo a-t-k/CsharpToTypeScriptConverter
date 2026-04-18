@@ -1,7 +1,7 @@
-using TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
+using ATK.Command.CsToTsGenerator.Tools.GeneratorTypes;
 using static Xunit.Assert;
 
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class ClassGeneratorTypeTests
     {
@@ -32,13 +32,13 @@ namespace CsharpToTypeScriptConverter.Tests
         private class GenerateTestClass
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = "";
         }
 
         private class GenerateTestClassWithInterface : IGenerateTestInterface
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = "";
         }
 
         private interface IGenerateTestInterface
@@ -66,7 +66,7 @@ namespace CsharpToTypeScriptConverter.Tests
         private class OrderedItem<T>
         {
             public int Order { get; set; }
-            public T Item { get; set; }
+            public T Item { get; set; } = default!;
         }
     }
 }

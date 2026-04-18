@@ -1,8 +1,7 @@
+using ATK.Command.CsToTsGenerator.Models;
 using CollisionFreeNamespaceWithCollisionTypeNames;
-using TypeScriptRequestCommandsGenerator;
-using TypeScriptRequestCommandsGenerator.Models;
 
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class SeparatedFilesGeneratorTests
     {

@@ -1,7 +1,7 @@
-using TypeScriptRequestCommandsGenerator.Tools.GeneratorTypes;
+using ATK.Command.CsToTsGenerator.Tools.GeneratorTypes;
 using static Xunit.Assert;
 
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class InheritanceTests
     {

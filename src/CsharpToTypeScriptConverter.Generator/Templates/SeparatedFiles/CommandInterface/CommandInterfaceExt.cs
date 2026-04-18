@@ -1,4 +1,4 @@
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CommandInterface
 {
     public partial class CommandInterface
     {

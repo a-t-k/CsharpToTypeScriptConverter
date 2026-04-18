@@ -1,7 +1,6 @@
-using TypeScriptRequestCommandsGenerator;
-using TypeScriptRequestCommandsGenerator.Tools;
+using ATK.Command.CsToTsGenerator.Tools;
 
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class SomeSameClassNamesWithDifferentNamespaces
     {
@@ -9,7 +8,7 @@ namespace CsharpToTypeScriptConverter.Tests
         public void Resolve_Works()
         {
             var resolver = new TypeDependencyResolver();
-            var result = resolver.GetAllDependencies(typeof(BenutzerkontoForBetrieb), typeof(MyNamespace.Benutzer));
+            var result = resolver.GetAllDependencies(typeof(BenutzerkontoForBetrieb), typeof(Tests.Benutzer));
             Assert.NotNull(result);
             Assert.True(result.Count == 4);
         }
@@ -23,7 +22,7 @@ namespace CsharpToTypeScriptConverter.Tests
                 .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
                 .SetInterfaceFilter(typeof(IRequestCommand))
                 .SetReturnTypeOfCommands(typeof(ICommand<>))
-                .AddRangeOfExtraTypesToGenerate([typeof(MyNamespace.Benutzer), typeof(BenutzerkontoForBetrieb)])
+                .AddRangeOfExtraTypesToGenerate([typeof(Tests.Benutzer), typeof(BenutzerkontoForBetrieb)])
                 .GenerateMetadata();
 
             var result = generated
@@ -71,10 +70,7 @@ namespace CsharpToTypeScriptConverter.Tests
             public string Mobil { get; set; }
         }
     }
-}
 
-namespace MyNamespace
-{
     public class Benutzer
     {
         public string Nachname { get; set; }

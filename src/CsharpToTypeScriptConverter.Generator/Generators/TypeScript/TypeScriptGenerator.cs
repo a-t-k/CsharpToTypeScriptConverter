@@ -1,7 +1,7 @@
-using TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile;
-using TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles;
+using ATK.Command.CsToTsGenerator.Generators.TypeScript.OneFile;
+using ATK.Command.CsToTsGenerator.Generators.TypeScript.SeparatedFiles;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript
+namespace ATK.Command.CsToTsGenerator.Generators.TypeScript
 {
     public class TypeScriptGenerator
     {

@@ -1,203 +1,184 @@
-# CsharpToTypeScriptConverter
+# ATK.Command.CsToTsGenerator - Technische Dokumentation
 
-**Automatische Typ-Synchronisation zwischen C# Backend und TypeScript Frontend – eliminiert Fehler und Overhead.**
+Code-Generator zur automatischen Generierung von TypeScript Types aus C# Types mittels .NET Reflection.
 
----
+## Anforderungen
 
-## 🎯 Das echte Problem
+- **.NET 10.0**
+- **Microsoft.CodeAnalysis 5.0.0**
+- **System.CodeDom 10.0.1**
 
-Teams mit separaten Backend- und Frontend-Entwicklern kämpfen mit einem fundamentalen Problem:
-
-```
-Backend Team ändert ein DTO:
-public class CreateOrderCommand
-{
-    public int CustomerId { get; set; }
-    public decimal Price { get; set; }
-}
-
-↓
-
-Frontend Team weiß nichts davon und rät:
-interface CreateOrderCommand {
-    customerId?: string;      // ← FALSCH (sollte number sein)
-    price?: string;           // ← FALSCH (sollte number sein)
-}
-
-↓
-
-Laufzeit-Fehler in Produktion 😱
-```
-
-**Das Resultat:**
-- 2-3 Stunden Sync-Overhead pro Änderung
-- 50%+ Fehlerquote bei Typ-Mismatches
-- Gegenseitige Schuldzuweisungen zwischen Teams
-- Backend und Frontend sind nicht synchron
-
----
-
-## ✅ Die Lösung
-
-Dieser Generator macht aus dem **Backend-Code die einzige Wahrheit**.
-
-```
-Backend Developer ändert DTO:
-public class CreateOrderCommand
-{
-    public int CustomerId { get; set; }
-    public decimal Price { get; set; }
-}
-
-↓ (Automatisch!)
-
-TypeScript wird NEU GENERIERT:
-export interface CreateOrderCommand {
-    customerId?: number;      // ← AUTOMATISCH RICHTIG
-    price?: number;           // ← AUTOMATISCH RICHTIG
-}
-
-↓
-
-Frontend Compiler warnt sofort ✓
-TypeScript hat exakte Struktur ✓
-Keine Typ-Fehler mehr ✓
-```
-
----
-
-## 🚀 Features
-
-### Automatische Generierung
-- C# DTOs → TypeScript Interfaces
-- C# Commands → TypeScript Commands
-- Rekursive Auflösung aller Abhängigkeiten
-- Vollständige Typ-Korrektheit
-
-### Zwei Generierungsmodi
-
-**SeparatedFiles** – Jeder Typ in eigener Datei
-```
-output/
-├─ CreateOrderCommand.ts
-├─ OrderItemDto.ts
-├─ CustomerDto.ts
-└─ index.ts (Barrel Export)
-```
-✓ Modular und skalierbar  
-✓ Ideal für große Projekte (200+ Typen)  
-✓ Mit `clearDestinationFolder` Flag zum automatischen Leeren
-
-**OneFile** – Alle Typen in einer Datei
-```
-output/
-└─ api-types.ts
-```
-✓ Schneller Überblick  
-✓ Ideal für Prototypen und kleine Projekte
-
-### DDD-aware
-- Generiert nur API-relevante Typen (DTOs, Commands)
-- Respektiert Domain Model Grenzen
-- Saubere Separation zwischen intern und extern
-
----
-
-## 📋 Verwendung
-
-### 1. SeparatedFiles Generator
+## Einstiegspunkt
 
 ```csharp
-var generator = new SeparatedFilesGenerator()
+using ATK.Command.CsToTsGenerator;
+
+var generator = new Generator();
+var tsGenerator = generator.TypeScript();
+```
+
+Die Klasse **`Generator`** ist der zentrale Einstiegspunkt:
+- `Generator.TypeScript()` → Instanziiert `TypeScriptGenerator`
+- `TypeScriptGenerator` orchestriert den gesamten Generierungsprozess
+
+## Generierungsmodi
+
+**SeparatedFiles** - Jeder Typ in separater Datei
+- Eine Datei pro Typ
+- Barrel-Export via `index.ts`
+- Automatisches Verzeichnis-Leeren mit Flag
+- Template: `Templates/SeparatedFiles/`
+- Klassen: `SeparatedFilesGenerator`, `SeparatedFilesGeneratorWithMetaData`, `SeparatedFilesGeneratorWithRenderedTypes`
+
+**OneFile** - Alle Typen in einer Datei
+- Alle Typen in einer Datei
+- Kompakter Output
+- Klassen: `OneFileGenerator`, `OneFileGeneratorWithMetaData`
+
+## Kernkomponenten
+
+| Komponente | Beschreibung |
+|---|---|
+| **Generator** | Einstiegspunkt, erzeugt `TypeScriptGenerator` |
+| **TypeScriptGenerator** | Orchestriert den Generierungsprozess |
+| **SeparatedFilesGenerator** | Generiert separate TS-Dateien pro Typ |
+| **OneFileGenerator** | Generiert alle Typen in eine TS-Datei |
+| **TypeDependencyResolver** | Löst Typ-Abhängigkeiten rekursiv auf |
+| **TypeNameResolver** | Konvertiert C#-Namen zu TypeScript-Namen |
+| **GeneratorType** | Repräsentiert einen C#-Typ mit Metadaten |
+| **GeneratorMember** | Repräsentiert ein Property/Field eines Typs |
+
+## Typ-Mapping
+
+| C# | TypeScript |
+|---|---|
+| `int`, `long`, `short`, `byte` | `number` |
+| `decimal`, `float`, `double` | `number` |
+| `bool` | `boolean` |
+| `string` | `string` |
+| `DateTime`, `DateOnly` | `string` |
+| `Enum` | `enum` |
+| `List<T>`, `IEnumerable<T>` | `T[]` |
+| `Dictionary<K, V>` | `{ [key: K]: V }` |
+| `Nullable<T>`, `T?` | `T \| null` |
+| `Guid` | `string` |
+
+
+
+T4 Text Templates in `Templates/`:
+- `SeparatedFiles/ComplexTypes/` - Class/Record Generierung
+- `SeparatedFiles/Commands/` - Command-Interface
+- `SeparatedFiles/Enums/` - Enum-Generierung
+- `SeparatedFiles/TypeScriptImports/` - Import-Statements
+- `SeparatedFiles/CodeGenerationWarning/` - Generierungs-Header
+
+## API
+
+### SeparatedFilesGenerator
+
+```csharp
+using ATK.Command.CsToTsGenerator;
+
+var generator = new Generator();
+var tsGenerator = generator.TypeScript();
+
+var builtFiles = tsGenerator
+    .SeparatedFiles()
     .SetInterfaceFilter(typeof(IRequestCommand))
     .SetReturnTypeOfCommands(typeof(Response))
     .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
     .AddRangeOfCommandTypesToGenerate(commandTypes)
-    .AddRangeOfExtraTypesToGenerate(dtoTypes);
-
-var metadata = generator.GenerateMetadata();
-
-var builtFiles = metadata
+    .AddRangeOfExtraTypesToGenerate(dtoTypes)
+    .GenerateMetadata()
     .GenerateTypeScript()
     .Build();
 
-// Speichern mit automatischem Verzeichnis-Clearing
 builtFiles.Save(clearDestinationFolder: true);
 ```
 
-### 2. OneFile Generator
+### OneFileGenerator
 
 ```csharp
-var generator = new OneFileGenerator()
+using ATK.Command.CsToTsGenerator;
+
+var generator = new Generator();
+var tsGenerator = generator.TypeScript();
+
+var builtFile = tsGenerator
+    .OneFile()
     .SetInterfaceFilter(typeof(IRequestCommand))
     .SetReturnTypeOfCommands(typeof(Response))
     .SetRequestCommandInterfaceNameForGeneratedCommands("ICommand")
     .AddRangeOfCommandTypesToGenerate(commandTypes)
-    .AddRangeOfExtraTypesToGenerate(dtoTypes);
-
-var metadata = generator.GenerateMetadata();
-
-var builtFile = metadata
+    .AddRangeOfExtraTypesToGenerate(dtoTypes)
+    .GenerateMetadata()
     .GenerateTypeScript()
     .Build("output/api-types.ts");
 
 builtFile.Save();
 ```
 
----
+## Datenmodelle
 
-## 💡 Praktische Beispiele
+| Klasse | Zweck |
+|---|---|
+| `GeneratorType` | C#-Typ mit Metadaten |
+| `GeneratorMember` | Property/Field eines Typs |
+| `GeneratorTypeKind` | Klassifizierung (Class, Enum, Interface, Record) |
+| `FileMetadata` | Zielordner und Metadaten |
+| `BuildFile` | Generierte TypeScript-Datei |
+| `BuildedSeparatedFiles` | Sammlung generierter Dateien |
 
-### Szenario: Neues Feld hinzufügen
+## Filter und Konfiguration
 
-**Alt (Horror):**
+**SetInterfaceFilter**
+- Nur Typen implementieren diese Interface
+- Typ-Selektion für Commands
+
+**SetReturnTypeOfCommands**
+- Response-Type für generierte Commands
+- Standard: `Response`, `ApiResponse`
+
+**AddRangeOfCommandTypesToGenerate**
+- Command-Typen auswählen
+- Werden zu TypeScript Interfaces
+
+**AddRangeOfExtraTypesToGenerate**
+- DTOs und weitere Typen hinzufügen
+
+## Typ-Klassifizierung
+
+`GeneratorTypeKind` Enum:
+- `Class` - Gewöhnliche Klassen
+- `Interface` - Schnittstellen
+- `Record` - Record-Typen
+- `Enum` - Enumerationen
+- `Struct` - Strukturtypen
+
+## Testing
+
+Test-Projekte in `src/CsharpToTypeScriptConverter.Tests`:
+
+- `GeneratorTypeTests` - Typ-Erkennung
+- `ClassGeneratorTypeTests` - Class-Generierung
+- `OneFileGeneratorTests` - OneFile-Modus
+- `SeparatedFilesGeneratorTests` - SeparatedFiles-Modus
+- `InheritanceTests` - Vererbungs-Handling
+- `TypeDependencyResolverTests` - Abhängigkeits-Auflösung
+- `TypeNameResolverTests` - Namen-Auflösung
+
+## Build & NuGet
+
+**Build:**
 ```
-1. Backend: Füge ShippingAddress hinzu → Push → Deploy
-2. Frontend: "Warte, warum ist alles broken?" → Email → Warten
-3. Frontend: Dokumentation suchen oder raten
-4. Frontend: Code schreiben → Testen → Fehler → Reparieren
-Zeit: 2-3 Stunden
-Fehlerquote: 50%+
+dotnet build
+dotnet test
 ```
 
-**Neu (mit Generator):**
-```
-1. Backend: Füge ShippingAddress hinzu → Push → Build
-2. Build Pipeline: Generiert neue TypeScript Typen
-3. Frontend: TypeScript Compiler warnt sofort "Property fehlt"
-4. Frontend: Implementiert in 10 Minuten
-Zeit: 10 Minuten
-Fehlerquote: ~0%
-```
-
-### Szenario: Typ-Fehler vermeiden
-
-**Backend:**
-```csharp
-public class OrderDto
-{
-    public decimal TotalPrice { get; set; }  // Dezimalzahl!
-    public string Status { get; set; }
-}
-```
-
-**Automatisch generiert:**
-```typescript
-export interface OrderDto {
-    totalPrice?: number;    // Nicht string! ✓
-    status?: string;
-}
-```
-
-TypeScript Compiler warnt sofort, wenn Frontend versucht `price: "29.99"` zu schicken. ✓
-
----
-
-## 📊 Wirtschaftlicher Nutzen
-
-### Zeitersparnis
-
-| Szenario | Alt | Mit Generator | Einsparung |
+**Paket:**
+- ATK.Command.CsToTsGenerator
+- Repository: https://github.com/a-t-k/CsharpToTypeScriptConverter
+- Lizenz: LICENSE
 |----------|-----|--------------|-----------|
 | Pro Änderung | 2-3 Stunden | 5 Minuten | 95% |
 | Pro Woche (5 Änderungen) | 50-75 Stunden | 25 Minuten | 95% |

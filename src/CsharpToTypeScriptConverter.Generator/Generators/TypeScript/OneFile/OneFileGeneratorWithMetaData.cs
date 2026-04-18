@@ -2,14 +2,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Commands;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTypes;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Enumerations;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CommandInterface;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Commands;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.ComplexTypes;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Enumerations;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.OneFile
+namespace ATK.Command.CsToTsGenerator.Generators.TypeScript.OneFile
 {
     public class OneFileGeneratorWithMetaData(GeneratorType[] metadata)
     {

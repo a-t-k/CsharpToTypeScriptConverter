@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Commands;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.ComplexTypes;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.Enumerations;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.TypeScriptImports;
-using TypeScriptRequestCommandsGenerator.Tools;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CodeGenerationWarning;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CommandInterface;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Commands;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.ComplexTypes;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.Enumerations;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.TypeScriptImports;
+using ATK.Command.CsToTsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
+namespace ATK.Command.CsToTsGenerator.Generators.TypeScript.SeparatedFiles
 {
     public class SeparatedFilesGeneratorWithMetaData(GeneratorType[] metadata, TypeFileGenerator typeFileGenerator)
     {

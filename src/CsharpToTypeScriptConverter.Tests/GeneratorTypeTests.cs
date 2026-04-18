@@ -1,7 +1,7 @@
-using TypeScriptRequestCommandsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Models;
 using static Xunit.Assert;
 
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class GeneratorTypeTests
     {

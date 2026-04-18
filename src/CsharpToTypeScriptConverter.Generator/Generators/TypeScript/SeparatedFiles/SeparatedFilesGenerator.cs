@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TypeScriptRequestCommandsGenerator.Models;
-using TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface;
-using TypeScriptRequestCommandsGenerator.Tools;
+using ATK.Command.CsToTsGenerator.Models;
+using ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CommandInterface;
+using ATK.Command.CsToTsGenerator.Tools;
 
-namespace TypeScriptRequestCommandsGenerator.Generators.TypeScript.SeparatedFiles
+namespace ATK.Command.CsToTsGenerator.Generators.TypeScript.SeparatedFiles
 {
     public class SeparatedFilesGenerator
     {

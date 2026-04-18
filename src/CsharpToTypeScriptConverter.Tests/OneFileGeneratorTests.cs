@@ -1,6 +1,4 @@
-using TypeScriptRequestCommandsGenerator;
-
-namespace CsharpToTypeScriptConverter.Tests
+namespace ATK.Command.CsToTsGenerator.Tests
 {
     public class OneFileGeneratorTests
     {

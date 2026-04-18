@@ -1,6 +1,6 @@
-using TypeScriptRequestCommandsGenerator.Generators.TypeScript;
+using ATK.Command.CsToTsGenerator.Generators.TypeScript;
 
-namespace TypeScriptRequestCommandsGenerator;
+namespace ATK.Command.CsToTsGenerator;
 
 public class Generator
 {

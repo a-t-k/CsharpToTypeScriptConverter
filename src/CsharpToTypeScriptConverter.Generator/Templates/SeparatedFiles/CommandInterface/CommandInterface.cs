@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace TypeScriptRequestCommandsGenerator.Templates.SeparatedFiles.CommandInterface
+namespace ATK.Command.CsToTsGenerator.Templates.SeparatedFiles.CommandInterface
 {
     using System.Linq;
     using System.Text;

@@ -1,4 +1,4 @@
-namespace TypeScriptRequestCommandsGenerator.Models
+namespace ATK.Command.CsToTsGenerator.Models
 {
     public enum FileMetadataType
     {
