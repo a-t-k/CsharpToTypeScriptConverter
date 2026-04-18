@@ -177,5 +177,5 @@ dotnet test
 
 **Package:**
 - ATK.Command.CsToTsGenerator
-- Repository: https://github.com/a-t-k/ATK.Command.CsToTsGenerator
+- Repository: https://www.nuget.org/packages/ATK.Command.CsToTsGenerator
 - License: LICENSE

@@ -177,7 +177,7 @@ dotnet test
 
 **Paket:**
 - ATK.Command.CsToTsGenerator
-- Repository: https://github.com/a-t-k/CsharpToTypeScriptConverter
+- Repository: https://www.nuget.org/packages/ATK.Command.CsToTsGenerator
 - Lizenz: LICENSE
 |----------|-----|--------------|-----------|
 | Pro Änderung | 2-3 Stunden | 5 Minuten | 95% |
